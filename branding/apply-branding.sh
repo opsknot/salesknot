@@ -14,6 +14,13 @@ W=$(esc "$BRAND_WEBSITE"); D=$(esc "$BRAND_DOCS_URL"); L=$(esc "$BRAND_EMAIL_LOG
 # 1. Icons and logo (generated from branding/logo.png in the build's first stage)
 cp -r /tmp/icons/. "$FRONT/images/icons/"
 
+# 1b. The "20" mark used on onboarding/app-connection screens -> our logo, embedded in an SVG
+node -e '
+  const fs = require("fs");
+  const png = fs.readFileSync(process.argv[1]).toString("base64");
+  fs.writeFileSync(process.argv[2], `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 192 192" width="192" height="192"><image width="192" height="192" xlink:href="data:image/png;base64,${png}"/></svg>`);
+' "/tmp/icons/android/android-launchericon-192-192.png" "$FRONT/images/integrations/twenty-logo.svg"
+
 # 2. Page title, social cards, PWA manifest
 sed -i \
   -e "s|<title>Twenty</title>|<title>$N</title>|" \
