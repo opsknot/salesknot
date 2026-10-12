@@ -1,0 +1,10 @@
+<a id="sk-source" href="__SOURCE_URL__" target="_blank" rel="noopener" style="position:fixed;left:12px;bottom:8px;font:12px sans-serif;color:#999;text-decoration:none;display:none">Source code</a>
+<script>
+  (function () {
+    var a = document.getElementById('sk-source');
+    var authPages = /^\/(welcome|sign-in|sign-up|invite|reset-password|verify)/;
+    function update() { a.style.display = authPages.test(location.pathname) ? 'block' : 'none'; }
+    update();
+    setInterval(update, 1000);
+  })();
+</script>
