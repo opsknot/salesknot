@@ -26,13 +26,13 @@ Industry packs live in a separate **private** repo, `salesknot-packs` (e.g. `rea
 - **Hosting** = VPS runs the app, worker, Redis and SalesKnot's own Postgres container
   (~1.3 GB RAM measured), separate from any other Postgres on the server. Neon is an optional
   alternative for the database.
-  Cloudflare Tunnel publishes it on `crm.opsknot.com` with HTTPS, with no ports opened on the VPS.
+  Cloudflare Tunnel publishes it on `salesknot.app` with HTTPS, with no ports opened on the VPS.
 
 ## 1. One-time accounts
 
 1. **Cloudflare** (domain already on Cloudflare): Zero Trust > Networks > Tunnels > Create a tunnel
    (type "Cloudflared") > name it `salesknot` > copy the **token**.
-   Then add a Public Hostname: `crm.opsknot.com` -> Service `HTTP` `server:3000`.
+   Then add a Public Hostname: `salesknot.app` -> Service `HTTP` `server:3000`.
 
 ## 2. Install on the VPS (Ubuntu/Debian)
 
@@ -51,7 +51,7 @@ docker compose up -d --build
 docker compose logs -f server     # first start runs database setup (a few minutes)
 ```
 
-Open `https://crm.opsknot.com`, sign up: the first account creates the workspace.
+Open `https://salesknot.app`, sign up: the first account creates the workspace.
 
 **If the very first start fails** (for example a typo in `.env`), the database can be left half
 set up. On a brand-new install only, fix `.env` and run `docker compose down -v && docker compose up -d`
@@ -76,7 +76,7 @@ On your PC or the VPS (needs Node 22+):
 ```bash
 cd salesknot-packs/real-estate
 npm install
-npx twenty remote:add --as prod --url https://crm.opsknot.com --api-key <API_KEY>
+npx twenty remote:add --as prod --url https://salesknot.app --api-key <API_KEY>
 npx twenty apply
 ```
 
