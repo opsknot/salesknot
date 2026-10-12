@@ -1,5 +1,6 @@
 # SalesKnot production stack for a small VPS (2 CPU / 4 GB RAM is enough).
-# Database: Neon (external). Public access: Cloudflare Tunnel (no open ports needed).
+# Database: its own Postgres container on the VPS (default), or Neon (set PG_DATABASE_URL and
+# remove `localdb` from COMPOSE_PROFILES). Public access: Cloudflare Tunnel (no open ports needed).
 name: salesknot
 
 x-app: &app
@@ -8,27 +9,15 @@ x-app: &app
   restart: unless-stopped
   volumes:
     - local-storage:/app/packages/twenty-server/.local-storage
+  env_file: .env           # passes only the settings you filled in (empty optional ones would fail validation)
   environment: &app-env
-    PG_DATABASE_URL: ${PG_DATABASE_URL}
-    SERVER_URL: ${SERVER_URL}
     REDIS_URL: redis://redis:6379
-    ENCRYPTION_KEY: ${ENCRYPTION_KEY}
-    STORAGE_TYPE: ${STORAGE_TYPE:-local}
-    STORAGE_S3_REGION: ${STORAGE_S3_REGION:-}
-    STORAGE_S3_NAME: ${STORAGE_S3_NAME:-}
-    STORAGE_S3_ENDPOINT: ${STORAGE_S3_ENDPOINT:-}
-    STORAGE_S3_ACCESS_KEY_ID: ${STORAGE_S3_ACCESS_KEY_ID:-}
-    STORAGE_S3_SECRET_ACCESS_KEY: ${STORAGE_S3_SECRET_ACCESS_KEY:-}
-    EMAIL_DRIVER: ${EMAIL_DRIVER:-}
-    EMAIL_FROM_ADDRESS: ${EMAIL_FROM_ADDRESS:-}
-    EMAIL_FROM_NAME: ${EMAIL_FROM_NAME:-SalesKnot}
-    EMAIL_SMTP_HOST: ${EMAIL_SMTP_HOST:-}
-    EMAIL_SMTP_PORT: ${EMAIL_SMTP_PORT:-}
-    EMAIL_SMTP_USER: ${EMAIL_SMTP_USER:-}
-    EMAIL_SMTP_PASSWORD: ${EMAIL_SMTP_PASSWORD:-}
   depends_on:
     redis:
       condition: service_healthy
+    db:
+      condition: service_healthy
+      required: false   # skipped when using Neon
 
 services:
   server:
@@ -52,6 +41,22 @@ services:
       server:
         condition: service_healthy
 
+  db:
+    image: postgres:16-alpine
+    profiles: ["localdb"]
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: salesknot
+      POSTGRES_USER: salesknot
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./backups:/backups
+    healthcheck:
+      test: pg_isready -U salesknot -d salesknot
+      interval: 5s
+      retries: 20
+
   redis:
     image: redis:7-alpine
     restart: unless-stopped
@@ -72,3 +77,4 @@ services:
 
 volumes:
   local-storage:
+  db-data:
