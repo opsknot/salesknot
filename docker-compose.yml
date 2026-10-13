@@ -23,7 +23,7 @@ services:
   server:
     <<: *app
     ports:
-      - "127.0.0.1:3000:3000"   # only reachable on the VPS itself; the tunnel publishes it
+      - "127.0.0.1:3100:3000"   # VPS-only (port 3100 avoids clashing with other apps); the tunnel uses server:3000
     healthcheck:
       test: curl --fail http://localhost:3000/healthz
       interval: 10s
@@ -51,6 +51,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ./backups:/backups
     healthcheck:
       test: pg_isready -U salesknot -d salesknot
       interval: 5s
