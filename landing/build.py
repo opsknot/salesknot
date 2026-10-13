@@ -13,7 +13,9 @@ SITE = "https://salesknot.app"
 DEMO = "https://opsknot.com/contact/booking/"
 SIGNIN = "https://my.salesknot.app"
 TODAY = date.today().isoformat()
-VER = TODAY.replace("-", "")
+import hashlib
+# cache-busting version for site.css / site.js: changes whenever their content changes
+VER = hashlib.md5(b"".join(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "src", f), "rb").read() for f in ("site.css", "site.js"))).hexdigest()[:10]
 
 def esc(s): return html.escape(s, quote=True)
 
