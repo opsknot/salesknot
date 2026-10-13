@@ -51,7 +51,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db-data:/var/lib/postgresql/data
-      - ./backups:/backups
     healthcheck:
       test: pg_isready -U salesknot -d salesknot
       interval: 5s
