@@ -7,10 +7,14 @@ salesknot/
 ├── Dockerfile              # Twenty's official image + SalesKnot branding layer
 ├── branding/
 │   ├── brand.env           # name, tagline, links  <- edit these
-│   ├── logo.png            # square logo, 1024x1024 PNG  <- replace with the real logo
+│   ├── logo.png            # square logo, 1024x1024 PNG (the SalesKnot knot mark)
 │   ├── apply-branding.sh   # applies the branding during the image build
 │   └── source-link.html    # "Source code" link on sign-in pages (AGPL requirement)
-├── landing/                # salesknot.app marketing page + its small web server config
+├── landing/                # salesknot.app marketing site
+│   ├── build.py            # generates every page into landing/public (python3 landing/build.py)
+│   ├── src/                # styles, script, icons and share image
+│   ├── public/             # the built site that nginx serves (commit it after building)
+│   └── nginx.conf          # serves the site pages, passes everything else to SalesKnot
 ├── install.sh              # one-step VPS install
 ├── docker-compose.yml      # server + worker + Redis + Postgres + Cloudflare Tunnel
 ├── scripts/
@@ -52,7 +56,7 @@ Industry packs live in a separate **private** repo, `salesknot-packs` (e.g. `rea
    that is expected. Once it shows **Connected**, add two Public Hostnames:
    - Subdomain `*`, domain `salesknot.app` -> Service `HTTP`, URL `server:3000`
    - Subdomain empty, domain `salesknot.app` -> Service `HTTP`, URL `web:80`
-     (the marketing page in `landing/`; everything except the home page is passed on to SalesKnot)
+     (the marketing site in `landing/public`; anything that isn't a site page is passed on to SalesKnot)
 
    If Cloudflare doesn't create the wildcard DNS record itself: DNS > Records > Add record,
    type `CNAME`, name `*`, target `<TUNNEL_ID>.cfargotunnel.com`, Proxied on.
