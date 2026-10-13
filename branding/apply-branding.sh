@@ -9,7 +9,6 @@ EMAILS=/app/packages/twenty-emails/dist
 
 esc() { printf '%s' "$1" | sed -e 's/[\/&|]/\\&/g'; }
 N=$(esc "$BRAND_NAME"); T=$(esc "$BRAND_TAGLINE"); C=$(esc "$BRAND_COMPANY")
-TU=$(esc "$BRAND_TERMS_URL"); PU=$(esc "$BRAND_PRIVACY_URL"); DU=$(esc "$BRAND_DPA_URL")
 W=$(esc "$BRAND_WEBSITE"); D=$(esc "$BRAND_DOCS_URL"); L=$(esc "$BRAND_EMAIL_LOGO_URL"); S=$(esc "$BRAND_SOURCE_URL")
 TU=$(esc "$BRAND_TERMS_URL"); PU=$(esc "$BRAND_DPA_URL")
 
@@ -52,13 +51,6 @@ node -e '
 find "$FRONT/assets" -name '*.js' -exec sed -i -E \
   -e "s|https://twentyhq.github.io/placeholder-images/workspaces/twenty-logo.png|/images/icons/android/android-launchericon-192-192.png|g" \
   -e "s/\\bTwenty\\b/$N/g" {} +
-
-# 4b. Legal links on the sign-in page: Twenty builds twenty.com/terms and /privacy-policy from the
-#     locale, and hard-codes twenty.com/legal/dpa. Point them at our own pages.
-find "$FRONT/assets" -name '*.js' -exec sed -i -E \
-  -e "s|[A-Za-z_\$]+\([A-Za-z_\$.]+locale,\"terms\"\)|\"$TU\"|g" \
-  -e "s|[A-Za-z_\$]+\([A-Za-z_\$.]+locale,\"privacy-policy\"\)|\"$PU\"|g" \
-  -e "s|https://twenty.com/legal/dpa|$DU|g" {} +
 
 # 4b. Legal links on the sign-in pages: Terms, DPA and privacy -> ours.
 #     Twenty builds terms/privacy as new URL("/terms", "https://twenty.com") via a small locale helper,
