@@ -77,7 +77,7 @@ def footer():
   <div class="wrap">
     <div class="fgrid">
       <div><a class="brand" href="/">{mark("ft")}<span>Sales<span class="k">Knot</span></span></a>
-        <p>The automation-first CRM. One flat price for your whole team, set up and supported by OpsKnot.</p></div>
+        <p>The automation-first CRM. One simple price per user, everything included, set up and supported by OpsKnot.</p></div>
       <div><h4>Product</h4><ul><li><a href="/features/">Core CRM</a></li><li><a href="/features/#automation">Workflow automation</a></li><li><a href="/features/#ai-agents">AI agents</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="{SIGNIN}">Sign in</a></li></ul></div>
       <div><h4>Editions</h4><ul>{eds}</ul></div>
       <div><h4>Company</h4><ul><li><a href="/about/">About</a></li><li><a href="/faq/">FAQ</a></li><li><a href="{DEMO}">Book a demo</a></li><li><a href="https://opsknot.com/salesknot/">OpsKnot</a></li></ul></div>
@@ -227,21 +227,15 @@ FLOW = '''<div class="flow">
 <div class="node x pulse" style="--pd:2s"><small>Action</small><b>Assign &amp; send email</b></div></div>'''
 
 CHART = '''<div class="chart" data-r="left">
-<div class="legend"><span><i style="background:#f472b6"></i>Per-seat CRM</span><span><i style="background:#7aa2ff"></i>SalesKnot</span></div>
-<svg viewBox="0 0 520 260" role="img" aria-label="Illustration: per-seat CRM cost rises with team size while SalesKnot stays flat">
-<defs><linearGradient id="fp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f472b6" stop-opacity=".25"/><stop offset="1" stop-color="#f472b6" stop-opacity="0"/></linearGradient></defs>
-<g stroke="rgba(255,255,255,.07)"><line x1="40" y1="20" x2="510" y2="20"/><line x1="40" y1="80" x2="510" y2="80"/><line x1="40" y1="140" x2="510" y2="140"/><line x1="40" y1="200" x2="510" y2="200"/></g>
-<line x1="40" y1="230" x2="510" y2="230" stroke="rgba(255,255,255,.18)"/>
-<path d="M40 215 L510 30 L510 230 L40 230Z" fill="url(#fp)"/>
-<path class="draw" d="M40 215 L510 30" stroke="#f472b6" stroke-width="3" fill="none" stroke-linecap="round"/>
-<path class="draw" d="M40 168 L510 168" stroke="#7aa2ff" stroke-width="3" fill="none" stroke-linecap="round" style="transition-delay:.4s"/>
-<text x="40" y="252" fill="#8189ab" font-size="12">1 user</text><text x="510" y="252" fill="#8189ab" font-size="12" text-anchor="end">50 users</text>
-<text x="30" y="24" fill="#8189ab" font-size="12" text-anchor="end">$</text></svg>
-<small>Illustration. Your SalesKnot price is quoted per company after a short call.</small></div>'''
+<div class="legend"><span><i style="background:#f472b6"></i>Typical per-user CRM</span><span><i style="background:#7aa2ff"></i>SalesKnot</span></div>
+<svg viewBox="0 0 520 200" role="img" aria-label="Illustration: a typical CRM's real cost per user adds automation tiers, AI add-ons and a setup partner to the seat price, while SalesKnot's per-user price includes all of it">
+<defs><linearGradient id="sk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5b7cff"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+<text x="0" y="20" fill="#c9cfe6" font-size="15" font-weight="600">Typical CRM, per user</text><g class="grow" style="transition-delay:0.00s"><rect x="0" y="32" width="90" height="52" rx="10" fill="#be4f8a"/><text x="12" y="64" fill="#fff" font-size="14" font-weight="600">Seat</text></g><g class="grow" style="transition-delay:0.25s"><rect x="95" y="32" width="145" height="52" rx="10" fill="#c2416e"/><text x="107" y="64" fill="#fff" font-size="14" font-weight="600">Automation tier</text></g><g class="grow" style="transition-delay:0.50s"><rect x="245" y="32" width="105" height="52" rx="10" fill="#a3365e"/><text x="257" y="64" fill="#fff" font-size="14" font-weight="600">AI add-on</text></g><g class="grow" style="transition-delay:0.75s"><rect x="355" y="32" width="160" height="52" rx="10" fill="#7d2b4c"/><text x="367" y="64" fill="#fff" font-size="14" font-weight="600">Setup partner</text></g><text x="0" y="130" fill="#c9cfe6" font-size="15" font-weight="600">SalesKnot, per user</text><g class="grow" style="transition-delay:0.00s"><rect x="0" y="142" width="295" height="52" rx="10" fill="url(#sk)"/><text x="12" y="174" fill="#fff" font-size="14" font-weight="600">Everything included</text></g></svg>
+<small>Illustration of what a user really costs. Your SalesKnot per-user price is confirmed after a short call.</small></div>'''
 
 PLAN = f'''<div class="plan" data-r="right" style="--d:.15s"><div>
-<h3>SalesKnot</h3><div class="big">One flat price, whole team</div>
-<ul>{"".join(f"<li>{CHECK}{t}</li>" for t in ["Add users freely, the price stays the same", "Workflows and AI agents included", "Setup and data import done for you", "Your own workspace and address", "Support from the people who set it up"])}</ul>
+<h3>SalesKnot</h3><div class="big">One price per user, everything in</div>
+<ul>{"".join(f"<li>{CHECK}{t}</li>" for t in ["Pay only for the people who log in", "Workflows and AI agents in every seat", "No feature tiers or paid add-ons", "Setup and data import done for you", "Support from the people who set it up"])}</ul>
 <a class="btn btn-main" href="{DEMO}">Get your price <span class="arr">→</span></a></div></div>'''
 
 STEPS = '''<div class="steps" data-r>
@@ -258,8 +252,8 @@ FAQ_GENERAL = [
     ("Do I need an industry edition?", "No. The <a href=\"/features/\">core CRM</a> covers companies, people, deals, tasks, notes, workflows, AI agents and dashboards, and many teams use it on its own. An edition adds what your sector tracks on top, such as call lists and dispositions for call centres or properties and showings for real estate. See <a href=\"/editions/\">all editions</a>."),
 ]
 FAQ_PRICING = [
-    ("How is SalesKnot priced?", "One flat monthly price per company, not per user, so adding salespeople doesn't raise your bill. Setup, data import and custom automations are quoted up front after a short call. See <a href=\"/pricing/\">pricing</a>."),
-    ("Is there a per-user fee?", "No. Your price covers your whole team. You can add users without changing your plan."),
+    ("How is SalesKnot priced?", "Per user, per month, with everything included: workflows, AI agents, dashboards, email sync and your industry edition. There are no feature tiers or paid add-ons. Setup and data import are quoted up front after a short call. See <a href=\"/pricing/\">pricing</a>."),
+    ("What counts as a user?", "Anyone who signs in to your workspace. Each person needs their own login, which keeps every call, email and change tied to the right name. You can add or remove users from month to month."),
     ("Is there a setup fee?", "Setup depends on how much we configure for you: your edition, custom fields, automations and how much data we import. We quote it as a fixed amount before we start."),
     ("Can I cancel?", "Yes. Your data stays yours, and you can export it at any time, including if you decide to leave."),
 ]
@@ -299,17 +293,17 @@ def home():
     body = f'''<div class="hero wrap">
 <div class="in-load" style="--d:.05s"><a class="badge" href="/editions/"><b>New</b> Call Centre and Travel &amp; Visa editions</a></div>
 <h1 class="in-load" style="--d:.15s">Your pipeline,<br><span class="grad">on autopilot.</span></h1>
-<p class="lead in-load" style="--d:.3s">SalesKnot is the automation-first CRM. Workflows and AI agents capture every lead, follow up on time and keep deals moving, with no per-user fees.</p>
+<p class="lead in-load" style="--d:.3s">SalesKnot is the automation-first CRM. Workflows and AI agents capture every lead, follow up on time and keep deals moving, priced simply per user.</p>
 <div class="ctas in-load" style="--d:.45s"><a class="btn btn-main" href="{DEMO}">Book a demo <span class="arr">→</span></a><a class="btn btn-ghost" href="/features/">Explore features</a></div>
-<div class="trust in-load" style="--d:.6s"><span>{CHECK}No per-user fees</span><span>{CHECK}Set up for you</span><span>{CHECK}Your data, exportable any time</span></div>
+<div class="trust in-load" style="--d:.6s"><span>{CHECK}Everything in every seat</span><span>{CHECK}Set up for you</span><span>{CHECK}Your data, exportable any time</span></div>
 {mock}
 </div>
 <div class="marquee" aria-label="Industries we serve"><div class="track">{"".join(f"<span>{i}</span>" for i in inds*2)}</div></div>
 
 <section style="padding-top:110px;padding-bottom:0"><div class="wrap">
 <div class="stats" data-r>
-<div class="stat"><strong class="grad">$0</strong><span>per-user fees, ever</span></div>
-<div class="stat"><strong>1</strong><span>flat price for your whole team</span></div>
+<div class="stat"><strong class="grad">1</strong><span>simple price per user</span></div>
+<div class="stat"><strong>0</strong><span>paid add-ons or feature tiers</span></div>
 <div class="stat"><strong>24/7</strong><span>workflows following up for you</span></div>
 <div class="stat"><strong>Days</strong><span>to go live, not months</span></div>
 </div></div></section>
@@ -337,8 +331,8 @@ def home():
 
 <section><div class="wrap">
 <div data-r><span class="kicker">Pricing</span></div>
-<h2 data-r style="--d:.08s">Grow your team.<br><span class="grad">Not your bill.</span></h2>
-<p class="sub" data-r style="--d:.16s">Per-seat CRMs charge more every time you hire. SalesKnot is one flat monthly price per company.</p>
+<h2 data-r style="--d:.08s">One price per user.<br><span class="grad">Everything included.</span></h2>
+<p class="sub" data-r style="--d:.16s">Most CRMs advertise a low seat price, then charge extra for automation, AI and setup. SalesKnot's per-user price already includes all of it.</p>
 <div class="price">{CHART}{PLAN}</div>
 </div></section>
 
@@ -360,13 +354,13 @@ def home():
         {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "SalesKnot",
          "applicationCategory": "BusinessApplication", "applicationSubCategory": "CRM", "operatingSystem": "Web",
          "url": SITE + "/", "image": SITE + "/_site/og.png",
-         "description": "Automation-first CRM with workflows, AI agents and industry editions, priced per company rather than per user.",
+         "description": "Automation-first CRM with workflows, AI agents and industry editions, with one all-inclusive price per user.",
          "featureList": ["Workflow automation", "AI agents", "Sales pipeline", "Email and calendar sync", "Custom objects and fields", "Dashboards", "REST and GraphQL API", "Webhooks"],
          "publisher": {"@id": SITE + "/#org"}},
         faq_schema(faqs),
     ]
-    return page("/", "SalesKnot: Automation-First CRM with No Per-User Fees",
-                "The automation-first CRM. Workflows and AI agents follow up on every lead, with editions for call centres, real estate, travel and more. No per-user fees.",
+    return page("/", "SalesKnot: the Automation-First CRM, Everything Included",
+                "The automation-first CRM. Workflows and AI agents follow up on every lead, with editions for call centres, real estate, travel and more. One price per user.",
                 body, "home", schema, og_title="SalesKnot: your pipeline on autopilot")
 
 def features():
@@ -407,7 +401,7 @@ def features():
 {vis.replace('data-r="right"', 'data-r="left"') if i % 2 else vis}</div>''')
     more = [
         ("lock", "Separate, secure workspaces", "Each company gets its own workspace and address. Encrypted connections and role-based access."),
-        ("users", "Unlimited users", "Add your whole team. The price is per company, not per seat."),
+        ("users", "Everything in every seat", "One price per user includes workflows, AI agents and dashboards. No tiers."),
         ("upload", "Import in minutes", "Bring contacts, companies and deals from spreadsheets or another CRM. We can do it for you."),
         ("phone", "Works everywhere", "Runs in any modern browser on desktop, tablet and phone."),
         ("layers", "Industry editions", "Start with records and dashboards built for your sector."),
@@ -422,7 +416,7 @@ def features():
         f'<section class="tight"><div class="wrap"><div class="center"><div data-r><span class="kicker">Editions</span></div><h2 data-r style="--d:.08s" class="sm">Need more for your industry? <span class="grad">Add an edition.</span></h2><p class="sub" data-r style="--d:.14s">Editions sit on top of the core CRM and add the records, stages and dashboards your sector uses.</p></div>{ed_cards()}</div></section>' + \
         final()
     return page("/features/", "Core CRM Features: Workflows, AI Agents & Pipeline | SalesKnot",
-                "The SalesKnot core CRM: workflow automation, AI agents, pipeline, Gmail and Outlook sync, custom objects, dashboards and APIs. One flat price per company.",
+                "The SalesKnot core CRM: workflow automation, AI agents, pipeline, Gmail and Outlook sync, custom objects, dashboards and APIs. One all-inclusive price per user.",
                 body, "features", crumbs=[("Core CRM", "/features/")])
 
 def editions_hub():
@@ -450,7 +444,7 @@ def editions_hub():
 EDITION_PAGES = {
     "real-estate-crm": dict(
         title="Real Estate CRM with Automated Follow-Up | SalesKnot",
-        desc="A real estate CRM for agencies and brokers: properties, showings, buyer stages and agency dashboards, with automated lead follow-up and AI agents. No per-user fees.",
+        desc="A real estate CRM for agencies and brokers: properties, showings, buyer stages and agency dashboards, with automated lead follow-up and AI agents. Everything included.",
         h1="The real estate CRM that <span class=\"grad\">follows up for you.</span>",
         lead="Track every property, buyer and showing in one place. SalesKnot assigns portal and website leads instantly, books follow-ups and keeps your agents focused on closing.",
         kicker="Real Estate CRM",
@@ -468,7 +462,7 @@ EDITION_PAGES = {
             ("What is a real estate CRM?", "A real estate CRM keeps your listings, buyers, sellers and showings in one system, and tracks every enquiry through to closing. SalesKnot adds automation so follow-up happens on time without agents having to remember it."),
             ("Can SalesKnot capture leads from property portals and my website?", "Yes. Website forms and portal lead emails or webhooks can create buyers in SalesKnot automatically and assign them to an agent."),
             ("Is the Real Estate edition available now?", "Yes. The Real Estate edition is live, with properties, showings, buyer stages and an agency overview dashboard."),
-            ("How much does a real estate CRM cost with SalesKnot?", "SalesKnot is one flat monthly price per agency, not per agent, so adding agents doesn't raise your bill. We quote after a short call."),
+            ("How much does a real estate CRM cost with SalesKnot?", "SalesKnot is one price per agent per month with everything included: automation, AI agents and the Real Estate edition. We confirm your price after a short call."),
         ]),
     "call-centre-crm": dict(
         title="Call Centre CRM for Outbound & Inbound Teams | SalesKnot",
@@ -491,11 +485,11 @@ EDITION_PAGES = {
             ("What is a call centre CRM?", "A call centre CRM organises who to call, records what happened on every call and decides the next step automatically: retries, callbacks, conversions and do-not-call. SalesKnot does this on top of a full sales CRM, so converted leads flow straight into your pipeline."),
             ("Does it work with my dialer?", "Yes. Agents can log calls by hand, or your dialer (such as Twilio, Aircall or 3CX) can send finished calls to SalesKnot automatically through the API, with the recording link attached."),
             ("How are callbacks and retries handled?", "Each campaign has an attempt limit and a retry wait. No-answer calls come back after the wait until the limit is reached; callbacks are booked for the exact time the customer asked for."),
-            ("How is a call centre CRM priced with SalesKnot?", "One flat monthly price per company, not per agent, so adding seats on the floor doesn't raise your bill. We quote after a short call."),
+            ("How is a call centre CRM priced with SalesKnot?", "One price per agent per month with the Call Centre edition, automation and dashboards included. Phone lines and call minutes are billed by your phone provider. We confirm your price after a short call."),
         ]),
     "travel-agency-crm": dict(
         title="Travel & Visa Agency CRM for Consultancies | SalesKnot",
-        desc="A travel and visa agency CRM: enquiries, visa cases, document checklists, payments with receipt numbers and automatic reminders. No per-user fees.",
+        desc="A travel and visa agency CRM: enquiries, visa cases, document checklists, payments with receipt numbers and automatic reminders. Everything included.",
         h1="The travel and visa CRM built for <span class=\"grad\">enquiries that convert.</span>",
         lead="Turn enquiries into visa cases and trips. SalesKnot's Travel & Visa edition keeps every client, document checklist and payment together, and reminds your team before anything is due.",
         kicker="Travel & Visa CRM",
@@ -582,7 +576,7 @@ def edition(e):
 </div></div></section>
 <section class="tight"><div class="wrap"><div class="cards two">
 <div class="cell" data-r><h3>Who it's for</h3>{checks(d["who"])}</div>
-<div class="cell" data-r style="--d:.1s"><h3>Why teams choose SalesKnot</h3>{checks(["One flat price for your whole team, no per-user fees", "Workflows and AI agents included", "Set up, imported and supported for you", "Your data, exportable any time"])}</div>
+<div class="cell" data-r style="--d:.1s"><h3>Why teams choose SalesKnot</h3>{checks(["One price per user, everything included", "Workflows and AI agents in every seat", "Set up, imported and supported for you", "Your data, exportable any time"])}</div>
 </div></div></section>
 <section class="tight"><div class="wrap"><div class="center"><div data-r><span class="kicker">Questions</span></div><h2 data-r style="--d:.08s" class="sm">{esc(e["name"])} CRM questions</h2></div>
 {faq_block(d["faqs"])}
@@ -598,8 +592,8 @@ def edition(e):
 
 def pricing():
     rows = [
-        ("Price model", "Per user, per month", "One flat price per company"),
-        ("Adding a salesperson", "Your bill goes up", "No change"),
+        ("Price model", "Per user, plus paid tiers and add-ons", "Per user, everything included"),
+        ("Feature tiers", "Key features locked to pricier plans", "One plan, every feature"),
         ("Workflow automation", "Often limited to higher tiers", "Included"),
         ("AI agents", "Usually an extra add-on", "Included and set up for you"),
         ("Setup & data import", "Do it yourself or hire a partner", "Done for you"),
@@ -607,23 +601,23 @@ def pricing():
         ("Support", "Ticket queue", "The people who set up your CRM"),
     ]
     trs = "".join(f'<tr><th scope="row">{a}</th><td>{b}</td><td class="us">{c}</td></tr>' for a, b, c in rows)
-    inc = ["Unlimited users", "Pipeline, contacts, companies, tasks and notes", "Workflow automation", "AI agents", "Email and calendar sync", "Custom objects, fields and views", "Dashboards", "API and webhooks", "Your industry edition, if you need one", "Your own workspace and address", "Onboarding and support"]
-    body = phero("Pricing", "Grow your team. <span class=\"grad\">Not your bill.</span>",
-                 "SalesKnot is one flat monthly price per company, with no per-user fees. Workflows, AI agents and setup are included, so the price you're quoted is the price you pay.",
+    inc = ["Add or remove users monthly", "Pipeline, contacts, companies, tasks and notes", "Workflow automation", "AI agents", "Email and calendar sync", "Custom objects, fields and views", "Dashboards", "API and webhooks", "Your industry edition, if you need one", "Your own workspace and address", "Onboarding and support"]
+    body = phero("Pricing", "One price per user. <span class=\"grad\">Everything included.</span>",
+                 "SalesKnot is priced per user, per month, with no feature tiers and no paid add-ons. Workflows, AI agents and your industry edition come with every seat, so the price you're quoted is the price you pay.",
                  [("Pricing", "/pricing/")], ctas=False) + f'''
 <section style="padding-top:0"><div class="wrap"><div class="price" style="margin-top:0">{CHART}{PLAN}</div></div></section>
 <section class="tight"><div class="wrap">
-<div data-r><span class="kicker">Compare</span></div><h2 data-r style="--d:.08s" class="sm">SalesKnot vs per-seat CRMs</h2>
-<div class="tbl" data-r><table><thead><tr><th></th><th>Typical per-seat CRM</th><th class="us">SalesKnot</th></tr></thead><tbody>{trs}</tbody></table></div>
+<div data-r><span class="kicker">Compare</span></div><h2 data-r style="--d:.08s" class="sm">SalesKnot vs typical CRMs</h2>
+<div class="tbl" data-r><table><thead><tr><th></th><th>Typical CRM</th><th class="us">SalesKnot</th></tr></thead><tbody>{trs}</tbody></table></div>
 </div></section>
 <section class="tight"><div class="wrap"><div class="cards two">
 <div class="cell" data-r><h3>Everything included</h3>{checks(inc)}</div>
-<div class="cell" data-r style="--d:.1s"><h3>How we price</h3><p>Your monthly price depends on your company's size and which edition you use, never on how many people log in.</p><p style="margin-top:14px">Setup is a fixed, one-time amount based on what we configure for you: fields, automations, AI agents and data import. You get both numbers in writing after a short call.</p><a class="btn btn-main" href="{DEMO}" style="margin-top:26px">Get your price <span class="arr">→</span></a></div>
+<div class="cell" data-r style="--d:.1s"><h3>How we price</h3><p>You pay a monthly price for each person who signs in, and every seat includes every feature and your industry edition.</p><p style="margin-top:14px">Setup is a fixed, one-time amount based on what we configure for you: fields, automations, AI agents and data import. You get both numbers in writing after a short call.</p><a class="btn btn-main" href="{DEMO}" style="margin-top:26px">Get your price <span class="arr">→</span></a></div>
 </div></div></section>
 <section class="tight"><div class="wrap"><div class="center"><div data-r><span class="kicker">Questions</span></div><h2 data-r style="--d:.08s" class="sm">Pricing questions</h2></div>{faq_block(FAQ_PRICING)}</div></section>
-{final("No per-user fees.<br><span class=\"grad\">Ever.</span>", "Tell us about your team and we'll send a flat price for SalesKnot, with setup quoted up front.")}'''
-    return page("/pricing/", "CRM Pricing with No Per-User Fees | SalesKnot",
-                "SalesKnot pricing: one flat monthly price per company with no per-user fees. Workflow automation, AI agents, setup and support included. Get your quote.",
+{final("No tiers. No add-ons.<br><span class=\"grad\">Just users.</span>", "Tell us about your team and we'll send your per-user price for SalesKnot, with setup quoted up front.")}'''
+    return page("/pricing/", "CRM Pricing: One Price Per User, Everything Included | SalesKnot",
+                "SalesKnot pricing: one monthly price per user with workflow automation, AI agents, your industry edition and support included. No tiers or add-ons.",
                 body, "pricing", [faq_schema(FAQ_PRICING)], crumbs=[("Pricing", "/pricing/")])
 
 def faq():
@@ -635,7 +629,7 @@ def faq():
         f'<section style="padding-top:0"><div class="wrap">{faq_block(None, groups)}</div></section>' + \
         final("Still have a question?", f"Book a short call and ask us directly, or email <a href=\"mailto:info@opsknot.com\" style=\"color:#9db5ff\">info@opsknot.com</a>.")
     return page("/faq/", "SalesKnot FAQ: Pricing, Features, Data & Security",
-                "Answers to common questions about SalesKnot: how pricing works without per-user fees, workflow automation, AI agents, data security, migration and hosting.",
+                "Answers to common questions about SalesKnot: how per-user pricing works, workflow automation, AI agents, data security, migration and hosting.",
                 body, "faq", [faq_schema(allq)], crumbs=[("FAQ", "/faq/")])
 
 def about():
@@ -644,9 +638,9 @@ def about():
                  [("About", "/about/")], ctas=False) + f'''
 <section style="padding-top:0"><div class="wrap"><div class="frow" style="border:0;padding:0;align-items:start">
 <div class="prose" data-r>
-<p><strong>Most CRMs are expensive filing cabinets.</strong> They charge for every seat, and they only work if salespeople stop selling to type in what happened. So the data goes stale, follow-ups slip, and the CRM becomes something people avoid.</p>
+<p><strong>Most CRMs are expensive filing cabinets.</strong> They charge for every seat and then for every feature, and they only work if salespeople stop selling to type in what happened. So the data goes stale, follow-ups slip, and the CRM becomes something people avoid.</p>
 <p>SalesKnot flips that. It's <strong>automation-first</strong>: workflows and AI agents capture leads, assign them, follow up and keep records tidy, so the CRM works for the team instead of the other way round.</p>
-<p>And it's priced the way small and growing teams need: <strong>one flat price per company</strong>, so hiring another salesperson never means a bigger software bill.</p>
+<p>And it's priced honestly: <strong>one price per user with everything included</strong>. No feature tiers, no AI add-ons, no surprise upgrade when you want your first automation.</p>
 <p>We set every workspace up ourselves, import your data and stay on hand afterwards. You talk to the people who built your system, not a ticket queue.</p>
 </div>
 <div class="cards" style="grid-template-columns:1fr;margin-top:0">
@@ -658,7 +652,7 @@ def about():
 {final()}'''
     schema = [{"@context": "https://schema.org", "@type": "AboutPage", "url": SITE + "/about/", "name": "About SalesKnot", "about": {"@id": SITE + "/#org"}}]
     return page("/about/", "About SalesKnot: the Automation-First CRM by OpsKnot",
-                "SalesKnot is built by OpsKnot, a CRM and automation consultancy. Learn why we made an automation-first CRM with no per-user fees.",
+                "SalesKnot is built by OpsKnot, a CRM and automation consultancy. Learn why we made an automation-first CRM with everything included per user.",
                 body, "about", schema, crumbs=[("About", "/about/")])
 
 def notfound():

@@ -366,3 +366,5 @@ footer.foot{border-top:1px solid var(--line);padding:70px 0 40px;font-size:14.5p
   .app{opacity:1;transform:none}
   .bars i{transform:none}
 }
+.chart .grow{transform:scaleX(0);transform-box:fill-box;transform-origin:left center;transition:transform 1.2s var(--ease)}
+.in .grow,.chart.in .grow{transform:none}
