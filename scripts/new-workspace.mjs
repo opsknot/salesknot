@@ -18,7 +18,7 @@ if (!email || !password || !displayName || !subdomain) {
   process.exit(1);
 }
 
-const origin = `https://${ADMIN_SUBDOMAIN || 'app'}.${BASE_DOMAIN}`;
+const origin = `https://${ADMIN_SUBDOMAIN || 'my'}.${BASE_DOMAIN}`;
 
 const gql = async (query, variables, token) => {
   const res = await fetch(`${origin}/metadata`, {

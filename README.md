@@ -34,7 +34,7 @@ Industry packs live in a separate **private** repo, `salesknot-packs` (e.g. `rea
 
   | Address | What it is |
   |---|---|
-  | `app.salesknot.app` | sign-in page (and the admin's first workspace) |
+  | `my.salesknot.app` | sign-in page (and the admin's first workspace) |
   | `crm.salesknot.app` | plain CRM, no pack |
   | `realestate.salesknot.app` | CRM + Real Estate pack |
   | `travel.salesknot.app`, `acme.salesknot.app`... | more demos or one per client |
@@ -71,8 +71,8 @@ docker compose up -d --build
 docker compose logs -f server     # first start runs database setup (a few minutes)
 ```
 
-Right away, open `https://app.salesknot.app` and sign up: the first account is the server admin
-(public sign-up closes after that). Pick subdomain `app` or leave the suggested one.
+Right away, open `https://my.salesknot.app` and sign up: the first account is the server admin
+(public sign-up closes after that). Leave the suggested one.
 
 ### Add a CRM (workspace)
 

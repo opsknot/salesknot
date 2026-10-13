@@ -48,7 +48,7 @@ for i in $(seq 1 60); do
   if docker compose exec -T server curl -sf http://localhost:3000/healthz >/dev/null 2>&1; then
     echo
     echo "SalesKnot is running."
-    echo "Next: in Cloudflare, add the hostnames (README step 1), then sign up at https://app.salesknot.app"
+    echo "Next: in Cloudflare, add the hostnames (README step 1), then sign up at https://my.salesknot.app"
     exit 0
   fi
   printf '.'; sleep 10
