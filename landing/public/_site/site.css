@@ -392,3 +392,4 @@ footer.foot{border-top:1px solid var(--line);padding:70px 0 40px;font-size:14.5p
 .plan .from .amt{font-size:44px;font-weight:800;color:var(--fg);letter-spacing:-.04em}
 .plan .from>span:last-child{font-size:14px;color:var(--fg-3);font-weight:500}
 @media (max-width:760px){.tiers{grid-template-columns:1fr}.tier{padding:28px}.tier .amt{font-size:48px}}
+.pk-only[hidden]{display:none!important}

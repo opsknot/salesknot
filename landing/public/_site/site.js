@@ -53,8 +53,12 @@
     $$('[data-set-bill]').forEach(b => b.addEventListener('click', () => { st.bill = b.dataset.setBill; render(); }));
     $$('[data-set-cur]').forEach(b => b.addEventListener('click', () => { st.cur = b.dataset.setCur; try { localStorage.setItem('sk-cur', st.cur); } catch (e) {} render(); }));
     render();
-    if (!chosen) fetch('/_geo', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(g => {
-      if (g && g.c === 'PK') { st.cur = 'pkr'; render(); }
+    // only visitors from Pakistan get PKR and the currency switch; everyone else sees USD
+    fetch('/_geo', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(g => {
+      if (!g || g.c !== 'PK') { if (st.cur !== 'usd') { st.cur = 'usd'; render(); } return; }
+      $$('.pk-only').forEach(el => el.hidden = false);
+      if (!chosen) st.cur = 'pkr';
+      render();
     }).catch(() => {});
   }
 

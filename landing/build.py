@@ -252,9 +252,9 @@ def tiers():
 {checks(items)}<a class="btn {"btn-main" if hi else "btn-ghost"}" href="{DEMO}">{cta} <span class="arr">→</span></a></div>'''
     return f'''<div class="tiers-bar" data-r>
 <div class="seg" role="group" aria-label="Billing period"><button type="button" data-set-bill="m" aria-pressed="true">Monthly</button><button type="button" data-set-bill="y" aria-pressed="false">Yearly <em>save 20%</em></button></div>
-<div class="seg" role="group" aria-label="Currency"><button type="button" data-set-cur="usd" aria-pressed="true">USD</button><button type="button" data-set-cur="pkr" aria-pressed="false">PKR</button></div></div>
+<div class="seg pk-only" role="group" aria-label="Currency" hidden><button type="button" data-set-cur="usd" aria-pressed="true">USD</button><button type="button" data-set-cur="pkr" aria-pressed="false">PKR</button></div></div>
 <div class="tiers">{card("core", "SalesKnot", "The complete automation-first CRM for any sales team.", core)}{card("edition", "SalesKnot + Edition", "The core CRM plus the edition built for your industry.", ed, hi=True)}</div>
-<p class="tnote">No minimum number of users. Add or remove users month to month. Setup and data import are quoted once, up front.<br>PKR prices apply to companies invoiced in Pakistan.</p>'''
+<p class="tnote">No minimum number of users. Add or remove users month to month. Setup and data import are quoted once, up front.<span class="pk-only" hidden><br>PKR prices apply to companies invoiced in Pakistan.</span></p>'''
 
 PLAN = f'''<div class="plan" data-r="right" style="--d:.15s"><div>
 <h3>SalesKnot</h3><div class="from">From {amt("core")}<span>per user / month</span></div>
@@ -275,7 +275,7 @@ FAQ_GENERAL = [
     ("Do I need an industry edition?", "No. The <a href=\"/features/\">core CRM</a> covers companies, people, deals, tasks, notes, workflows, AI agents and dashboards, and many teams use it on its own. An edition adds what your sector tracks on top, such as call lists and dispositions for call centres or properties and showings for real estate. See <a href=\"/editions/\">all editions</a>."),
 ]
 FAQ_PRICING = [
-    ("How is SalesKnot priced?", "Per user, per month: $20 for the core CRM, or $25 with an industry edition, and 20% less when you pay yearly. Workflows, AI agents, dashboards and email sync are in every seat, with no paid add-ons. Teams in Pakistan pay in PKR. Setup and data import are quoted once, up front. See <a href=\"/pricing/\">pricing</a>."),
+    ("How is SalesKnot priced?", "Per user, per month: $20 for the core CRM, or $25 with an industry edition, and 20% less when you pay yearly. Workflows, AI agents, dashboards and email sync are in every seat, with no paid add-ons. Setup and data import are quoted once, up front. See <a href=\"/pricing/\">pricing</a>."),
     ("Is there a minimum number of users?", "No. You can start with one user and add or remove users from month to month."),
     ("What counts as a user?", "Anyone who signs in to your workspace. Each person needs their own login, which keeps every call, email and change tied to the right name. You can add or remove users from month to month."),
     ("Is there a setup fee?", "Setup depends on how much we configure for you: your edition, custom fields, automations and how much data we import. We quote it as a fixed amount before we start."),
