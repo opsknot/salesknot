@@ -27,9 +27,12 @@ EDITIONS = [
     dict(slug="real-estate-crm", name="Real Estate", emo="🏙️", live=True,
          nav="Properties, showings, buyer stages",
          blurb="Properties, showings, buyer stages and agency dashboards."),
-    dict(slug="travel-agency-crm", name="Travel & Tours", emo="✈️", live=False,
-         nav="Enquiries, packages, bookings",
-         blurb="Enquiries, packages, travellers, bookings and payment schedules."),
+    dict(slug="call-centre-crm", name="Call Centre", emo="🎧", live=False, early=True,
+         nav="Campaigns, call lists, callbacks",
+         blurb="Campaigns, call lists, dispositions, callbacks and agent dashboards."),
+    dict(slug="travel-agency-crm", name="Travel & Visa", emo="✈️", live=False, early=True,
+         nav="Enquiries, visa cases, payments",
+         blurb="Enquiries, visa cases, document checklists, payments and receipts."),
     dict(slug="law-firm-crm", name="Legal", emo="⚖️", live=False,
          nav="Matters, clients, deadlines",
          blurb="Matters, clients, deadlines, documents and billable follow-ups."),
@@ -42,7 +45,8 @@ EDITIONS = [
 
 def header(active):
     def cur(k): return ' aria-current="page"' if active == k else ""
-    eds = "".join(f'<a href="/editions/{e["slug"]}/"><span class="e">{e["emo"]}</span><span><b>{esc(e["name"])} CRM</b><small>{esc(e["nav"])}</small></span></a>' for e in EDITIONS)
+    eds = f'<a class="core-link" href="/features/"><span class="e">{mark("dd")}</span><span><b>SalesKnot core CRM</b><small>Included in every edition</small></span></a>'
+    eds += "".join(f'<a href="/editions/{e["slug"]}/"><span class="e">{e["emo"]}</span><span><b>{esc(e["name"])} edition</b><small>{esc(e["nav"])}</small></span></a>' for e in EDITIONS)
     eds += '<a href="/editions/"><span class="e">✦</span><span><b>All editions</b><small>Compare what each one adds</small></span></a>'
     meds = "".join(f'<a class="sub2" href="/editions/{e["slug"]}/">{e["emo"]} {esc(e["name"])}</a>' for e in EDITIONS)
     return f'''<a class="skip" href="#main">Skip to content</a>
@@ -50,7 +54,7 @@ def header(active):
   <div class="wrap nav">
     <a class="brand" href="/" aria-label="SalesKnot home">{mark("hd")}<span>Sales<span class="k">Knot</span></span></a>
     <nav class="links" aria-label="Main">
-      <a href="/features/"{cur("features")}>Features</a>
+      <a href="/features/"{cur("features")}>Core CRM</a>
       <div class="dd"><button aria-haspopup="true">Editions</button><div class="menu">{eds}</div></div>
       <a href="/pricing/"{cur("pricing")}>Pricing</a>
       <a href="/faq/"{cur("faq")}>FAQ</a>
@@ -61,20 +65,20 @@ def header(active):
     <button class="burger" aria-label="Menu" aria-expanded="false"><i></i><i></i><i></i></button>
   </div>
   <nav class="mnav" aria-label="Mobile">
-    <a href="/features/">Features</a><a href="/editions/">Editions</a>{meds}
+    <a href="/features/">Core CRM</a><a href="/editions/">Editions</a>{meds}
     <a href="/pricing/">Pricing</a><a href="/faq/">FAQ</a><a href="/about/">About</a><a href="{SIGNIN}">Sign in</a>
     <a class="btn btn-main" href="{DEMO}">Book a demo</a>
   </nav>
 </header>'''
 
 def footer():
-    eds = "".join(f'<li><a href="/editions/{e["slug"]}/">{esc(e["name"])} CRM</a></li>' for e in EDITIONS)
+    eds = '<li><a href="/editions/">All editions</a></li>' + "".join(f'<li><a href="/editions/{e["slug"]}/">{esc(e["name"])} CRM</a></li>' for e in EDITIONS)
     return f'''<footer class="foot">
   <div class="wrap">
     <div class="fgrid">
       <div><a class="brand" href="/">{mark("ft")}<span>Sales<span class="k">Knot</span></span></a>
         <p>The automation-first CRM. One flat price for your whole team, set up and supported by OpsKnot.</p></div>
-      <div><h4>Product</h4><ul><li><a href="/features/">Features</a></li><li><a href="/features/#automation">Workflow automation</a></li><li><a href="/features/#ai-agents">AI agents</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="{SIGNIN}">Sign in</a></li></ul></div>
+      <div><h4>Product</h4><ul><li><a href="/features/">Core CRM</a></li><li><a href="/features/#automation">Workflow automation</a></li><li><a href="/features/#ai-agents">AI agents</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="{SIGNIN}">Sign in</a></li></ul></div>
       <div><h4>Editions</h4><ul>{eds}</ul></div>
       <div><h4>Company</h4><ul><li><a href="/about/">About</a></li><li><a href="/faq/">FAQ</a></li><li><a href="{DEMO}">Book a demo</a></li><li><a href="https://opsknot.com/salesknot/">OpsKnot</a></li></ul></div>
       <div><h4>Contact</h4><ul><li><a href="mailto:info@opsknot.com">info@opsknot.com</a></li><li><a href="https://www.linkedin.com/company/opsknot/">LinkedIn</a></li><li><a href="https://opsknot.com/privacy-policy/">Privacy</a></li><li><a href="https://opsknot.com/terms/">Terms</a></li></ul></div>
@@ -200,12 +204,22 @@ def icon(name):
 def checks(items):
     return '<ul class="checks">' + "".join(f"<li>{CHECK}<span>{i}</span></li>" for i in items) + "</ul>"
 
-def ed_cards(link=True):
+CORE_CHIPS = ["Contacts &amp; companies", "Deals pipeline", "Tasks &amp; notes", "Workflows", "AI agents", "Email &amp; calendar", "Dashboards", "API &amp; webhooks"]
+
+def core_banner():
+    chips = "".join(f"<span>{c}</span>" for c in CORE_CHIPS)
+    return f'''<div class="core" data-r><div>{mark("core")}
+<div><h3>SalesKnot core CRM</h3><p>The complete CRM every workspace starts with. Most teams run on the core alone; editions build on top of it, never instead of it.</p><div class="chips">{chips}</div></div>
+<a class="btn btn-ghost" href="/features/">See the core CRM <span class="arr">→</span></a></div></div>
+<div class="eds-label" data-r>Add an edition for your industry</div>'''
+
+def ed_cards(link=True, core=False):
     out = []
     for i, e in enumerate(EDITIONS):
-        tag = '<span class="tag on">Available</span>' if e["live"] else '<span class="tag">Coming soon</span>'
+        tag = '<span class="tag on">Available</span>' if e["live"] else ('<span class="tag">Early access</span>' if e.get("early") else '<span class="tag">Coming soon</span>')
         out.append(f'<a class="ed{" live" if e["live"] else ""}" href="/editions/{e["slug"]}/" data-r style="--d:{i*0.1:.1f}s"><div><span class="emo" aria-hidden="true">{e["emo"]}</span><h3>{esc(e["name"])} CRM</h3><p>{esc(e["blurb"])}</p><span class="tlink">Explore <span>→</span></span>{tag}</div></a>')
-    return '<div class="eds">' + "".join(out) + "</div>"
+    out.append(f'<a class="ed custom" href="{DEMO}" data-r style="--d:{len(EDITIONS)*0.1:.1f}s"><div><span class="emo" aria-hidden="true">✦</span><h3>Your industry</h3><p>Not listed? We shape the core CRM around your process: your records, stages and automations.</p><span class="tlink">Talk to us <span>→</span></span></div></a>')
+    return (core_banner() if core else "") + '<div class="eds">' + "".join(out) + "</div>"
 
 FLOW = '''<div class="flow">
 <div class="node t pulse" style="--pd:0s"><small>Trigger</small><b>New lead from website</b></div><div class="wire"></div>
@@ -240,8 +254,8 @@ STEPS = '''<div class="steps" data-r>
 FAQ_GENERAL = [
     ("What is SalesKnot?", "SalesKnot is an automation-first CRM for sales teams. It keeps your leads, contacts, companies and deals in one place, and uses workflows and AI agents to handle routine follow-up automatically. It is built and supported by OpsKnot."),
     ("What does automation-first mean?", "Most CRMs wait for someone to type. SalesKnot is set up so routine work happens on its own: new leads are assigned, follow-ups are scheduled, records are updated and reminders go out, with AI agents handling the repetitive steps."),
-    ("Who is SalesKnot for?", "Small and mid-sized sales teams that want a CRM working for them rather than another tool to update, especially in real estate, travel, legal services and import/export. We work with teams in the United States, United Kingdom, UAE and worldwide."),
-    ("Do I need an industry edition?", "No. The standard CRM covers companies, people, deals, tasks, notes, workflows and dashboards. An edition adds the records and dashboards your sector uses, such as properties and showings for real estate. See <a href=\"/editions/\">all editions</a>."),
+    ("Who is SalesKnot for?", "Small and mid-sized sales teams that want a CRM working for them rather than another tool to update, including call centres, real estate, travel and visa agencies, legal services and import/export. We work with teams in the United States, United Kingdom, UAE and worldwide."),
+    ("Do I need an industry edition?", "No. The <a href=\"/features/\">core CRM</a> covers companies, people, deals, tasks, notes, workflows, AI agents and dashboards, and many teams use it on its own. An edition adds what your sector tracks on top, such as call lists and dispositions for call centres or properties and showings for real estate. See <a href=\"/editions/\">all editions</a>."),
 ]
 FAQ_PRICING = [
     ("How is SalesKnot priced?", "One flat monthly price per company, not per user, so adding salespeople doesn't raise your bill. Setup, data import and custom automations are quoted up front after a short call. See <a href=\"/pricing/\">pricing</a>."),
@@ -269,7 +283,7 @@ def home():
 <div class="app" id="app" aria-hidden="true">
 <div class="app-top"><i></i><i></i><i></i><span class="u">yourcompany.salesknot.app</span></div>
 <div class="app-body">
-<div class="side"><div class="ws">{mark("ws")}Acme Realty</div><div class="it">Companies</div><div class="it">People</div><div class="it on">Opportunities</div><div class="it">Properties</div><div class="it">Tasks</div><div class="it">Workflows</div><div class="it">Dashboards</div></div>
+<div class="side"><div class="ws">{mark("ws")}Northwind Co.</div><div class="it">Companies</div><div class="it">People</div><div class="it on">Opportunities</div><div class="it">Leads</div><div class="it">Tasks</div><div class="it">Workflows</div><div class="it">Dashboards</div></div>
 <div class="board" id="board">
 <div class="col"><h5>New lead <span>3</span></h5><div class="deal"><b>Corporate retreat</b><div class="m"><span class="v">$18k</span><span class="av" style="background:#0ea5e9">JL</span></div></div><div class="deal"><b>Downtown loft</b><div class="m"><span class="v">$310k</span><span class="av" style="background:#f59e0b">RK</span></div></div></div>
 <div class="col"><h5>Qualified <span>2</span></h5><div class="deal"><b>Office lease, Dubai</b><div class="m"><span class="v">$96k</span><span class="av" style="background:#8b5cf6">AM</span></div></div><div class="deal"><b>Family tour, Italy</b><div class="m"><span class="v">$12k</span><span class="av" style="background:#ec4899">SN</span></div></div></div>
@@ -281,9 +295,9 @@ def home():
 </div>
 <div class="ai" id="ai"><div class="h"><i>✦</i>AI agent</div><p id="aiText"></p></div>
 </div>'''
-    inds = ["Real Estate", "Travel &amp; Tours", "Legal", "Import &amp; Export", "Agencies", "Consultancies", "B2B Sales"]
+    inds = ["Sales Teams", "Call Centres", "Real Estate", "Travel &amp; Visa", "Legal", "Import &amp; Export", "Agencies", "Consultancies", "B2B Sales"]
     body = f'''<div class="hero wrap">
-<div class="in-load" style="--d:.05s"><a class="badge" href="/editions/real-estate-crm/"><b>New</b> Real Estate edition is live</a></div>
+<div class="in-load" style="--d:.05s"><a class="badge" href="/editions/"><b>New</b> Call Centre and Travel &amp; Visa editions</a></div>
 <h1 class="in-load" style="--d:.15s">Your pipeline,<br><span class="grad">on autopilot.</span></h1>
 <p class="lead in-load" style="--d:.3s">SalesKnot is the automation-first CRM. Workflows and AI agents capture every lead, follow up on time and keep deals moving, with no per-user fees.</p>
 <div class="ctas in-load" style="--d:.45s"><a class="btn btn-main" href="{DEMO}">Book a demo <span class="arr">→</span></a><a class="btn btn-ghost" href="/features/">Explore features</a></div>
@@ -315,10 +329,10 @@ def home():
 </div></section>
 
 <section class="tight"><div class="wrap">
-<div class="center"><div data-r><span class="kicker">Industry editions</span></div>
-<h2 data-r style="--d:.08s">Starts out knowing <span class="grad">your industry.</span></h2>
-<p class="sub" data-r style="--d:.16s">Each edition adds the records, stages and dashboards your sector uses, ready on day one.</p></div>
-{ed_cards()}
+<div class="center"><div data-r><span class="kicker">One CRM, many editions</span></div>
+<h2 data-r style="--d:.08s">One core CRM. <span class="grad">Your industry on top.</span></h2>
+<p class="sub" data-r style="--d:.16s">Every team gets the full SalesKnot CRM. When your sector needs more, an edition adds its records, stages, dashboards and automations, ready on day one.</p></div>
+{ed_cards(core=True)}
 </div></section>
 
 <section><div class="wrap">
@@ -352,7 +366,7 @@ def home():
         faq_schema(faqs),
     ]
     return page("/", "SalesKnot: Automation-First CRM with No Per-User Fees",
-                "The automation-first CRM. Workflows and AI agents follow up on every lead, with editions for real estate, travel and more. One flat price, no per-user fees.",
+                "The automation-first CRM. Workflows and AI agents follow up on every lead, with editions for call centres, real estate, travel and more. No per-user fees.",
                 body, "home", schema, og_title="SalesKnot: your pipeline on autopilot")
 
 def features():
@@ -400,36 +414,37 @@ def features():
         ("globe", "Hosted or on your server", "Use our hosted service, or we run SalesKnot on infrastructure you control."),
     ]
     cards = "".join(f'<div class="cell" data-r style="--d:{(i%3)*0.08:.2f}s">{icon(ic)}<h3>{t}</h3><p>{d}</p></div>' for i, (ic, t, d) in enumerate(more))
-    body = phero("Features", "Everything your sales team needs. <span class=\"grad\">Automated.</span>",
-                 "Workflow automation, AI agents, pipeline management, email sync, custom objects and dashboards, in one CRM priced per company.",
-                 [("Features", "/features/")]) + \
+    body = phero("SalesKnot core CRM", "Everything your sales team needs. <span class=\"grad\">Automated.</span>",
+                 "The core CRM every workspace starts with: workflow automation, AI agents, pipeline, email sync, custom objects and dashboards. Every edition is built on it.",
+                 [("Core CRM", "/features/")]) + \
         f'<section style="padding-top:0"><div class="wrap">{"".join(out)}</div></section>' + \
         f'<section class="tight"><div class="wrap"><div class="center"><div data-r><span class="kicker">And more</span></div><h2 data-r style="--d:.08s" class="sm">Built for teams that want to sell, not admin.</h2></div><div class="cards">{cards}</div></div></section>' + \
+        f'<section class="tight"><div class="wrap"><div class="center"><div data-r><span class="kicker">Editions</span></div><h2 data-r style="--d:.08s" class="sm">Need more for your industry? <span class="grad">Add an edition.</span></h2><p class="sub" data-r style="--d:.14s">Editions sit on top of the core CRM and add the records, stages and dashboards your sector uses.</p></div>{ed_cards()}</div></section>' + \
         final()
-    return page("/features/", "CRM Features: Workflow Automation, AI Agents & Pipeline | SalesKnot",
-                "SalesKnot features: workflow automation, AI agents, pipeline, Gmail and Outlook sync, custom objects, dashboards and open APIs. One flat price per company.",
-                body, "features", crumbs=[("Features", "/features/")])
+    return page("/features/", "Core CRM Features: Workflows, AI Agents & Pipeline | SalesKnot",
+                "The SalesKnot core CRM: workflow automation, AI agents, pipeline, Gmail and Outlook sync, custom objects, dashboards and APIs. One flat price per company.",
+                body, "features", crumbs=[("Core CRM", "/features/")])
 
 def editions_hub():
     rows = [
-        ("Records", "Companies, people, deals, tasks, notes", "+ properties, showings", "+ trips, travellers, bookings", "+ matters, deadlines", "+ shipments, quotations"),
-        ("Pipeline stages", "Your sales stages", "Buyer stages", "Enquiry → booked → travelled", "Intake → engaged → closed", "Quote → order → shipped"),
-        ("Dashboards", "Pipeline & activity", "Agency overview", "Bookings & revenue", "Matters & billing", "Orders & shipments"),
-        ("Status", "Available", "Available", "Coming soon", "Coming soon", "Coming soon"),
+        ("Records", "Companies, people, deals, tasks, notes", "+ properties, showings", "+ campaigns, call lists, calls", "+ visa cases, documents, payments", "+ matters, deadlines", "+ shipments, quotations"),
+        ("Stages", "Your sales stages", "Buyer stages", "New → callback → converted", "Enquiry → case → decided", "Intake → engaged → closed", "Quote → order → shipped"),
+        ("Dashboards", "Pipeline & activity", "Agency overview", "Calls, outcomes, agents", "Cases, collections, balances", "Matters & billing", "Orders & shipments"),
+        ("Status", "Available", "Available", "Early access", "Early access", "Coming soon", "Coming soon"),
     ]
-    head = "<tr><th></th><th>Standard</th>" + "".join(f'<th class="{"us" if e["live"] else ""}">{esc(e["name"])}</th>' for e in EDITIONS) + "</tr>"
+    head = "<tr><th></th><th class=\"us\">Core CRM</th>" + "".join(f'<th class="{"us" if e["live"] else ""}">{esc(e["name"])}</th>' for e in EDITIONS) + "</tr>"
     trs = "".join("<tr><th scope=\"row\">" + r[0] + "</th>" + "".join(f'<td class="{"yes" if c=="Available" else ""}">{esc(c)}</td>' for c in r[1:]) + "</tr>" for r in rows)
-    body = phero("Industry editions", "A CRM that already <span class=\"grad\">speaks your industry.</span>",
-                 "Every SalesKnot workspace starts with the full CRM. An edition adds the records, stages, views and dashboards your sector needs, so you're productive on day one.",
+    body = phero("Editions", "Start with the core CRM. <span class=\"grad\">Add your industry.</span>",
+                 "Every SalesKnot workspace is the full core CRM. An edition is an add-on layer with the records, stages, views, dashboards and automations your sector needs, so you're productive on day one.",
                  [("Editions", "/editions/")], center=True) + \
-        f'''<section style="padding-top:0"><div class="wrap">{ed_cards()}
+        f'''<section style="padding-top:0"><div class="wrap">{ed_cards(core=True)}
 <div class="tbl" data-r><table><thead>{head}</thead><tbody>{trs}</tbody></table></div>
 <p class="sub" data-r style="margin-top:28px">Don't see your industry? Every edition starts from the same CRM, and we can shape a workspace to your process. <a class="tlink" href="{DEMO}" style="margin-top:0">Tell us what you sell <span>→</span></a></p>
 </div></section>''' + final()
     schema = [{"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [
         {"@type": "ListItem", "position": i + 1, "url": f"{SITE}/editions/{e['slug']}/", "name": f"{e['name']} CRM"} for i, e in enumerate(EDITIONS)]}]
-    return page("/editions/", "Industry CRM Editions: Real Estate, Travel, Legal, Import/Export | SalesKnot",
-                "SalesKnot industry editions add the records, pipelines and dashboards your sector uses: real estate CRM, travel agency CRM, law firm CRM and import/export CRM.",
+    return page("/editions/", "CRM Editions: Call Centre, Real Estate & Travel | SalesKnot",
+                "SalesKnot editions add industry records, pipelines and dashboards to the core CRM: call centre, real estate, travel and visa, law firm and import/export CRM.",
                 body, "editions", schema, crumbs=[("Editions", "/editions/")])
 
 EDITION_PAGES = {
@@ -455,26 +470,49 @@ EDITION_PAGES = {
             ("Is the Real Estate edition available now?", "Yes. The Real Estate edition is live, with properties, showings, buyer stages and an agency overview dashboard."),
             ("How much does a real estate CRM cost with SalesKnot?", "SalesKnot is one flat monthly price per agency, not per agent, so adding agents doesn't raise your bill. We quote after a short call."),
         ]),
-    "travel-agency-crm": dict(
-        title="Travel Agency CRM for Tour Operators | SalesKnot",
-        desc="A travel agency CRM for tour operators and travel consultants: enquiries, packages, travellers, bookings and payment schedules, with automated follow-up. Early access open.",
-        h1="The travel CRM built for <span class=\"grad\">enquiries that convert.</span>",
-        lead="Turn enquiries into booked trips. SalesKnot's Travel & Tours edition keeps every traveller, package and payment schedule together, and follows up while your team plans the trip.",
-        kicker="Travel Agency CRM",
+    "call-centre-crm": dict(
+        title="Call Centre CRM for Outbound & Inbound Teams | SalesKnot",
+        desc="A call centre CRM with campaigns, call lists, dispositions, automatic callbacks, do-not-call lists and agent dashboards. Dialer-ready. No per-agent fees.",
+        h1="The call centre CRM that <span class=\"grad\">works the list for you.</span>",
+        lead="Load a campaign, and SalesKnot tells every agent who to call next. Each disposition updates the lead, books the callback, respects do-not-call and turns interested people into deals.",
+        kicker="Call Centre CRM",
+        cta_h="Put your call floor<br><span class=\"grad\">on autopilot.</span>",
         blocks=[
-            ("Enquiries", "Capture requests from your website, email and social channels with dates, destinations and budget."),
-            ("Packages & quotes", "Build trips from packages and send quotes linked to the enquiry."),
-            ("Travellers", "Passenger details, preferences and documents attached to each booking."),
-            ("Bookings", "Confirmed trips with suppliers, dates and status in one view."),
-            ("Payment schedules", "Deposits and balances with automatic reminders before due dates."),
-            ("Repeat business", "Anniversary and seasonal campaigns to past travellers."),
+            ("Campaigns", "Outbound sales, collections, surveys or inbound support, each with its script, dates, attempt limits and live totals."),
+            ("Call lists", "Every lead in a campaign with its agent, priority, attempts and next call time, so the queue sorts itself."),
+            ("Call logging & dispositions", "Sale, interested, callback, no answer, busy, voicemail, wrong number or do-not-call, with notes, duration and recording link."),
+            ("Callbacks", "Pick a time and the callback lands in the agent's tasks and back at the top of the list when it's due."),
+            ("Do-not-call", "One do-not-call disposition flags the person and removes them from every open campaign."),
+            ("Floor dashboard", "Calls by outcome, agent and campaign, contact and conversion counts, and what's due now."),
         ],
-        flows=[("New enquiry", "Assign to consultant, send brochure, follow up in 24 hours"), ("Deposit due in 3 days", "Email reminder to the traveller"), ("Trip completed", "Request a review and tag for next season's offer")],
-        who=["Tour operators", "Travel agencies and consultants", "Corporate travel and MICE teams", "Hajj, Umrah and religious travel organisers"],
+        flows=[("No answer, busy or voicemail", "Retry after the campaign's wait time, then mark exhausted at the attempt limit"), ("Callback requested", "Task for the agent at the agreed time, lead back in the queue"), ("Interested or sale", "Lead marked converted and a deal opened for the sales team"), ("Do not call", "Person flagged and pulled from every open list")],
+        who=["Outbound sales and telemarketing teams", "Collections and renewals desks", "Inbound support and helplines", "BPOs running campaigns for several clients"],
         faqs=[
-            ("What is a travel agency CRM?", "A travel agency CRM tracks enquiries, quotes, travellers and bookings in one place, so consultants can follow up quickly and nothing slips between the enquiry and the trip."),
-            ("Is the Travel & Tours edition available now?", "It is in development. You can start today on the standard SalesKnot CRM, and we'll shape your workspace for travel and move you onto the edition when it launches."),
-            ("Does it handle deposits and payment reminders?", "Yes, payment schedules with automated reminders are part of the Travel & Tours edition."),
+            ("What is a call centre CRM?", "A call centre CRM organises who to call, records what happened on every call and decides the next step automatically: retries, callbacks, conversions and do-not-call. SalesKnot does this on top of a full sales CRM, so converted leads flow straight into your pipeline."),
+            ("Does it work with my dialer?", "Yes. Agents can log calls by hand, or your dialer (such as Twilio, Aircall or 3CX) can send finished calls to SalesKnot automatically through the API, with the recording link attached."),
+            ("How are callbacks and retries handled?", "Each campaign has an attempt limit and a retry wait. No-answer calls come back after the wait until the limit is reached; callbacks are booked for the exact time the customer asked for."),
+            ("How is a call centre CRM priced with SalesKnot?", "One flat monthly price per company, not per agent, so adding seats on the floor doesn't raise your bill. We quote after a short call."),
+        ]),
+    "travel-agency-crm": dict(
+        title="Travel & Visa Agency CRM for Consultancies | SalesKnot",
+        desc="A travel and visa agency CRM: enquiries, visa cases, document checklists, payments with receipt numbers and automatic reminders. No per-user fees.",
+        h1="The travel and visa CRM built for <span class=\"grad\">enquiries that convert.</span>",
+        lead="Turn enquiries into visa cases and trips. SalesKnot's Travel & Visa edition keeps every client, document checklist and payment together, and reminds your team before anything is due.",
+        kicker="Travel & Visa CRM",
+        blocks=[
+            ("Enquiries", "Walk-in, WhatsApp, Facebook and website enquiries on one board, from new to converted."),
+            ("Visa cases", "Numbered cases moving from documents to submission and decision, with fee, appointment and outcome."),
+            ("Document checklists", "Each visa type's checklist copied onto every case, with uploads, verification and expiry dates."),
+            ("Payments & receipts", "Payments and refunds with automatic receipt numbers, balances updated on the case, mistakes voided not deleted."),
+            ("Reminders", "Passports and documents about to expire, appointments coming up and unpaid balances, as tasks every morning."),
+            ("Office overview", "Open cases, approvals, money collected, balance due and enquiries by source on one dashboard."),
+        ],
+        flows=[("Enquiry converted", "Client created and a visa case opened with its checklist"), ("Payment recorded", "Receipt number assigned, case balance updated"), ("Passport expires in 90 days", "Follow-up task for the counselor")],
+        who=["Visa consultancies", "Travel agencies and tour operators", "Study-abroad and immigration advisers", "Hajj, Umrah and religious travel organisers"],
+        faqs=[
+            ("What is a travel and visa agency CRM?", "It tracks enquiries, clients, visa cases, documents and payments in one place, so counselors follow up quickly and nothing slips between the first enquiry and the decision."),
+            ("Is the Travel & Visa edition available now?", "It is in early access. Book a demo and we'll set up your workspace with the edition and import your existing clients and cases."),
+            ("Does it handle payments and receipts?", "Yes. Payments and refunds get receipt numbers automatically, and each case shows the amount paid and balance due."),
         ]),
     "law-firm-crm": dict(
         title="Law Firm CRM for Client Intake & Matters | SalesKnot",
@@ -522,17 +560,20 @@ EDITION_PAGES = {
 
 def edition(e):
     d = EDITION_PAGES[e["slug"]]
-    status = '<div class="in-load" style="margin-top:26px"><span class="tag on">Available now</span></div>' if e["live"] else '<div class="in-load" style="margin-top:26px"><span class="tag">Coming soon · early access open</span></div>'
+    label = "Early access" if e.get("early") else "Coming soon · early access open"
+    status = '<div class="in-load" style="margin-top:26px"><span class="tag on">Available now</span></div>' if e["live"] else f'<div class="in-load" style="margin-top:26px"><span class="tag">{label}</span></div>'
     extra = f'<div class="emo in-load" aria-hidden="true">{e["emo"]}</div>{status}'
     blocks = "".join(f'<div class="cell" data-r style="--d:{(i%3)*0.08:.2f}s"><h3>{esc(t)}</h3><p>{esc(p)}</p></div>' for i, (t, p) in enumerate(d["blocks"]))
     flows = "".join(f'<div class="vrow"><span><b>⚡ {esc(a)}</b><br><small>{esc(b)}</small></span><span class="pill g">Automated</span></div>' for a, b in d["flows"])
-    cta_h = "See the Real Estate edition<br><span class=\"grad\">with your listings.</span>" if e["live"] else f"Get early access to<br><span class=\"grad\">{esc(e['name'])}.</span>"
-    cta_s = "Book a demo and we'll show you SalesKnot running your agency's pipeline." if e["live"] else "Start on SalesKnot today and we'll shape your workspace for your industry, then move you onto the edition when it launches."
+    cta_h = d.get("cta_h") or ("See the Real Estate edition<br><span class=\"grad\">with your listings.</span>" if e["live"] else f"Get early access to<br><span class=\"grad\">{esc(e['name'])}.</span>")
+    if e["live"]: cta_s = "Book a demo and we'll show you SalesKnot running your agency's pipeline."
+    elif e.get("early"): cta_s = f"Book a demo and we'll set up your workspace with the core CRM and the {esc(e['name'])} edition, with your data imported."
+    else: cta_s = "Start on the core CRM today and we'll shape your workspace for your industry, then move you onto the edition when it launches."
     others = "".join(f'<a class="chips" href="/editions/{o["slug"]}/" style="margin:0"><span>{o["emo"]} {esc(o["name"])} CRM</span></a>' for o in EDITIONS if o["slug"] != e["slug"])
     body = phero(d["kicker"], d["h1"], d["lead"], [("Editions", "/editions/"), (e["name"], f'/editions/{e["slug"]}/')], extra=extra) + f'''
 <section style="padding-top:20px"><div class="wrap">
 <div data-r><span class="kicker">What's included</span></div>
-<h2 data-r style="--d:.08s" class="sm">Everything in SalesKnot, plus the records {esc(e["name"].lower())} teams use.</h2>
+<h2 data-r style="--d:.08s" class="sm">The full <a href="/features/" style="color:inherit;text-decoration:underline;text-decoration-color:rgba(122,162,255,.5);text-underline-offset:6px">core CRM</a>, plus what {esc(e["name"].lower())} teams use.</h2>
 <div class="cards">{blocks}</div>
 </div></section>
 <section class="tight"><div class="wrap"><div class="frow" style="border:0;padding:0">
@@ -562,11 +603,11 @@ def pricing():
         ("Workflow automation", "Often limited to higher tiers", "Included"),
         ("AI agents", "Usually an extra add-on", "Included and set up for you"),
         ("Setup & data import", "Do it yourself or hire a partner", "Done for you"),
-        ("Industry edition", "Build it yourself", "Included where available"),
+        ("Industry edition", "Build it yourself", "Added on top of the core CRM"),
         ("Support", "Ticket queue", "The people who set up your CRM"),
     ]
     trs = "".join(f'<tr><th scope="row">{a}</th><td>{b}</td><td class="us">{c}</td></tr>' for a, b, c in rows)
-    inc = ["Unlimited users", "Pipeline, contacts, companies, tasks and notes", "Workflow automation", "AI agents", "Email and calendar sync", "Custom objects, fields and views", "Dashboards", "API and webhooks", "Your industry edition where available", "Your own workspace and address", "Onboarding and support"]
+    inc = ["Unlimited users", "Pipeline, contacts, companies, tasks and notes", "Workflow automation", "AI agents", "Email and calendar sync", "Custom objects, fields and views", "Dashboards", "API and webhooks", "Your industry edition, if you need one", "Your own workspace and address", "Onboarding and support"]
     body = phero("Pricing", "Grow your team. <span class=\"grad\">Not your bill.</span>",
                  "SalesKnot is one flat monthly price per company, with no per-user fees. Workflows, AI agents and setup are included, so the price you're quoted is the price you pay.",
                  [("Pricing", "/pricing/")], ctas=False) + f'''
@@ -610,7 +651,7 @@ def about():
 </div>
 <div class="cards" style="grid-template-columns:1fr;margin-top:0">
 <div class="cell" data-r="right"><h3>OpsKnot</h3><p>A CRM, automation and web consultancy led by Zahid Wakil Rao, a CRM architect since 2007 who has delivered CRM projects for teams from Lahore to Dubai.</p><a class="tlink" href="https://opsknot.com/salesknot/">Visit OpsKnot <span>→</span></a></div>
-<div class="cell" data-r="right" style="--d:.1s"><h3>Who we work with</h3><p>Sales teams in the United States, United Kingdom, UAE and beyond, in real estate, travel, legal services, import/export and B2B sales.</p></div>
+<div class="cell" data-r="right" style="--d:.1s"><h3>Who we work with</h3><p>Sales teams in the United States, United Kingdom, UAE and beyond, in call centres, real estate, travel, legal services, import/export and B2B sales.</p></div>
 </div>
 </div></div></section>
 <section class="tight"><div class="wrap center"><div data-r><span class="kicker">How it works</span></div><h2 data-r style="--d:.08s">Live in days. <span class="grad">Not months.</span></h2>{STEPS}</div></section>
