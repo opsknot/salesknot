@@ -29,6 +29,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 30
+      start_period: 15m   # first start sets up the database and can be slow
 
   worker:
     <<: *app
