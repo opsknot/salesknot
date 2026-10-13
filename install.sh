@@ -35,7 +35,7 @@ if ! grep -q '^CLOUDFLARE_TUNNEL_TOKEN=..' .env; then
   echo "Nothing will show while you paste; that's normal."
   read -rs TOKEN < /dev/tty
   echo
-  TOKEN="${TOKEN##*--token }"; TOKEN="$(echo "$TOKEN" | tr -d '[:space:]')"
+  TOKEN="$(echo "$TOKEN" | awk '{print $NF}')"   # also accepts the whole command Cloudflare shows
   [ -n "$TOKEN" ] || { echo "No token given. Re-run this script when you have it."; exit 1; }
   sed -i "s|^CLOUDFLARE_TUNNEL_TOKEN=.*|CLOUDFLARE_TUNNEL_TOKEN=$TOKEN|" .env
 fi
