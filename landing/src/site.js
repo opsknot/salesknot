@@ -36,6 +36,28 @@
     q.classList.toggle('open', open); b.setAttribute('aria-expanded', open);
   }));
 
+  // prices: currency (PKR for visitors from Pakistan) and billing period
+  const amts = $$('.amt[data-p]');
+  if (amts.length) {
+    const st = { bill: 'm', cur: 'usd' };
+    let chosen = null;
+    try { chosen = localStorage.getItem('sk-cur'); } catch (e) {}
+    if (chosen === 'usd' || chosen === 'pkr') st.cur = chosen;
+    const fmt = (c, v) => c === 'pkr' ? 'PKR ' + v.toLocaleString('en-US') : '$' + v;
+    const render = () => {
+      amts.forEach(el => { const p = JSON.parse(el.dataset.p); const b = $('[data-set-bill]') ? st.bill : (el.dataset.bill || 'm'); el.textContent = fmt(st.cur, p[st.cur][b]); });
+      $$('.billnote').forEach(n => n.textContent = st.bill === 'y' ? 'billed yearly' : 'billed monthly');
+      $$('[data-set-bill]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setBill === st.bill));
+      $$('[data-set-cur]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setCur === st.cur));
+    };
+    $$('[data-set-bill]').forEach(b => b.addEventListener('click', () => { st.bill = b.dataset.setBill; render(); }));
+    $$('[data-set-cur]').forEach(b => b.addEventListener('click', () => { st.cur = b.dataset.setCur; try { localStorage.setItem('sk-cur', st.cur); } catch (e) {} render(); }));
+    render();
+    if (!chosen) fetch('/_geo', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(g => {
+      if (g && g.c === 'PK') { st.cur = 'pkr'; render(); }
+    }).catch(() => {});
+  }
+
   // home: animated app mock
   const app = $('#app'), stage = $('#stage');
   if (!app) return;

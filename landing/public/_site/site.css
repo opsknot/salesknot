@@ -368,3 +368,27 @@ footer.foot{border-top:1px solid var(--line);padding:70px 0 40px;font-size:14.5p
 }
 .chart .grow{transform:scaleX(0);transform-box:fill-box;transform-origin:left center;transition:transform 1.2s var(--ease)}
 .in .grow,.chart.in .grow{transform:none}
+/* pricing tiers */
+.tiers-bar{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.seg{display:inline-flex;padding:4px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.03)}
+.seg button{all:unset;cursor:pointer;padding:9px 18px;border-radius:999px;font-size:14px;font-weight:500;color:var(--fg-2);transition:background .25s,color .25s}
+.seg button:focus-visible{outline:2px solid #7aa2ff;outline-offset:2px}
+.seg button[aria-pressed="true"]{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff}
+.seg em{font-style:normal;font-size:11.5px;font-weight:600;margin-left:6px;color:var(--green)}
+.seg button[aria-pressed="true"] em{color:#d9fbe9}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:960px;margin:34px auto 0}
+.tier{position:relative;border-radius:24px;border:1px solid var(--line-2);background:var(--panel);padding:34px;display:flex;flex-direction:column}
+.tier.hi{border-color:transparent;background:radial-gradient(120% 80% at 100% 0%,rgba(139,92,246,.22),transparent 60%) padding-box,linear-gradient(#0a0e1c,#0a0e1c) padding-box,linear-gradient(160deg,#7aa2ff,#a78bfa 50%,rgba(34,211,238,.5)) border-box}
+.tier .tag{margin-top:0;margin-bottom:18px}
+.tier h3{font-family:var(--display);font-size:26px;font-weight:800;letter-spacing:-.03em}
+.tier .d{color:var(--fg-2);font-size:15.5px;margin-top:8px}
+.tier .p{display:flex;align-items:flex-end;gap:12px;margin:26px 0 6px}
+.tier .amt{font-family:var(--display);font-size:56px;line-height:.95;font-weight:800;letter-spacing:-.045em}
+.tier .per{color:var(--fg-3);font-size:13.5px;line-height:1.35;padding-bottom:4px}
+.tier .checks{margin:20px 0 30px;flex:1}
+.tier .btn{justify-content:center}
+.tnote{text-align:center;color:var(--fg-3);font-size:13.5px;margin-top:24px;line-height:1.7}
+.plan .from{font-family:var(--display);font-size:20px;font-weight:600;color:var(--fg-2);margin-top:6px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.plan .from .amt{font-size:44px;font-weight:800;color:var(--fg);letter-spacing:-.04em}
+.plan .from>span:last-child{font-size:14px;color:var(--fg-3);font-weight:500}
+@media (max-width:760px){.tiers{grid-template-columns:1fr}.tier{padding:28px}.tier .amt{font-size:48px}}
