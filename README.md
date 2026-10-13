@@ -10,6 +10,8 @@ salesknot/
 │   ├── logo.png            # square logo, 1024x1024 PNG  <- replace with the real logo
 │   ├── apply-branding.sh   # applies the branding during the image build
 │   └── source-link.html    # "Source code" link on sign-in pages (AGPL requirement)
+├── landing/                # salesknot.app marketing page + its small web server config
+├── install.sh              # one-step VPS install
 ├── docker-compose.yml      # server + worker + Redis + Postgres + Cloudflare Tunnel
 ├── scripts/
 │   └── new-workspace.mjs   # creates a new CRM (workspace) on its own subdomain
@@ -49,12 +51,22 @@ Industry packs live in a separate **private** repo, `salesknot-packs` (e.g. `rea
    The tunnel page shows "Waiting for your Tunnel to connect" until step 2 below is running;
    that is expected. Once it shows **Connected**, add two Public Hostnames:
    - Subdomain `*`, domain `salesknot.app` -> Service `HTTP`, URL `server:3000`
-   - Subdomain empty, domain `salesknot.app` -> Service `HTTP`, URL `server:3000`
+   - Subdomain empty, domain `salesknot.app` -> Service `HTTP`, URL `web:80`
+     (the marketing page in `landing/`; everything except the home page is passed on to SalesKnot)
 
    If Cloudflare doesn't create the wildcard DNS record itself: DNS > Records > Add record,
    type `CNAME`, name `*`, target `<TUNNEL_ID>.cfargotunnel.com`, Proxied on.
 
 ## 2. Install on the VPS (Ubuntu/Debian)
+
+Quickest: log in to the VPS and run this one line. It installs Docker, downloads the kit to
+`/opt/salesknot`, makes the passwords, asks for the tunnel token and starts everything.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/opsknot/salesknot/main/install.sh | sudo bash
+```
+
+Or step by step:
 
 ```bash
 # Docker
