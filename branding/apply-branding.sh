@@ -9,7 +9,9 @@ EMAILS=/app/packages/twenty-emails/dist
 
 esc() { printf '%s' "$1" | sed -e 's/[\/&|]/\\&/g'; }
 N=$(esc "$BRAND_NAME"); T=$(esc "$BRAND_TAGLINE"); C=$(esc "$BRAND_COMPANY")
+TU=$(esc "$BRAND_TERMS_URL"); PU=$(esc "$BRAND_PRIVACY_URL"); DU=$(esc "$BRAND_DPA_URL")
 W=$(esc "$BRAND_WEBSITE"); D=$(esc "$BRAND_DOCS_URL"); L=$(esc "$BRAND_EMAIL_LOGO_URL"); S=$(esc "$BRAND_SOURCE_URL")
+TU=$(esc "$BRAND_TERMS_URL"); PU=$(esc "$BRAND_DPA_URL")
 
 # 1. Icons and logo (generated from branding/logo.png in the build's first stage)
 cp -r /tmp/icons/. "$FRONT/images/icons/"
@@ -38,10 +40,35 @@ node -e '
   fs.writeFileSync(f, fs.readFileSync(f, "utf8").replace("</body>", snippet + "</body>"));
 ' "$FRONT/index.html" "$BRAND_SOURCE_URL"
 
+# 3b. Sign-in pages: 50/50 split, SalesKnot panel on the left, Twenty's own form untouched on the right
+node -e '
+  const fs = require("fs");
+  const f = process.argv[1];
+  const snippet = fs.readFileSync("/tmp/branding/auth-split.html", "utf8");
+  fs.writeFileSync(f, fs.readFileSync(f, "utf8").replace("</body>", () => snippet + "</body>"));
+' "$FRONT/index.html"
+
 # 4. User-facing text in the web app bundles
 find "$FRONT/assets" -name '*.js' -exec sed -i -E \
   -e "s|https://twentyhq.github.io/placeholder-images/workspaces/twenty-logo.png|/images/icons/android/android-launchericon-192-192.png|g" \
   -e "s/\\bTwenty\\b/$N/g" {} +
+
+# 4b. Legal links on the sign-in page: Twenty builds twenty.com/terms and /privacy-policy from the
+#     locale, and hard-codes twenty.com/legal/dpa. Point them at our own pages.
+find "$FRONT/assets" -name '*.js' -exec sed -i -E \
+  -e "s|[A-Za-z_\$]+\([A-Za-z_\$.]+locale,\"terms\"\)|\"$TU\"|g" \
+  -e "s|[A-Za-z_\$]+\([A-Za-z_\$.]+locale,\"privacy-policy\"\)|\"$PU\"|g" \
+  -e "s|https://twenty.com/legal/dpa|$DU|g" {} +
+
+# 4b. Legal links on the sign-in pages: Terms, DPA and privacy -> ours.
+#     Twenty builds terms/privacy as new URL("/terms", "https://twenty.com") via a small locale helper,
+#     so replace those helper calls (matched by shape, not by minified name) as well as any literal links.
+find "$FRONT/assets" -name '*.js' -exec sed -i -E \
+  -e "s|[A-Za-z_\$][A-Za-z0-9_\$]*\([A-Za-z_\$][A-Za-z0-9_\$.]*\.locale,\"terms\"\)|\"$TU\"|g" \
+  -e "s|[A-Za-z_\$][A-Za-z0-9_\$]*\([A-Za-z_\$][A-Za-z0-9_\$.]*\.locale,\"privacy-policy\"\)|\"$PU\"|g" \
+  -e "s|https://(www\.)?twenty\.com/([a-z]{2}/)?terms[A-Za-z0-9/_-]*|$TU|g" \
+  -e "s|https://(www\.)?twenty\.com/([a-z]{2}/)?legal/[A-Za-z0-9/_-]*|$PU|g" \
+  -e "s|https://(www\.)?twenty\.com/([a-z]{2}/)?privacy[A-Za-z0-9/_-]*|$PU|g" {} +
 
 # 5. Emails: logo, footer links, company line, product name
 find "$EMAILS" \( -name '*.js' -o -name '*.mjs' \) -exec sed -i -E \

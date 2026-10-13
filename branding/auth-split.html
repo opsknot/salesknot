@@ -1,0 +1,200 @@
+<!-- SalesKnot: split sign-in layout. Left: marketing panel. Right: Twenty's own auth screens, unchanged.
+     Shown only on auth routes; removed from view as soon as the app navigates anywhere else. -->
+<style>
+#sk-auth{display:none}
+html.sk-split #sk-auth{
+  --sk-bg:#05070f;--sk-fg:#f4f6ff;--sk-fg2:#b9c0dc;--sk-fg3:#8189ab;--sk-line:rgba(255,255,255,.08);--sk-line2:rgba(255,255,255,.14);
+  --sk-grad:linear-gradient(120deg,#7aa2ff 0%,#a78bfa 45%,#22d3ee 100%);--sk-ease:cubic-bezier(.16,1,.3,1);
+  display:flex;box-sizing:border-box;overflow:hidden;isolation:isolate;box-shadow:inset -1px 0 0 rgba(255,255,255,.07);
+  background:var(--sk-bg);color:var(--sk-fg);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;
+  -webkit-font-smoothing:antialiased;text-align:left;
+}
+#sk-auth,#sk-auth *,#sk-auth *::before,#sk-auth *::after{box-sizing:border-box;margin:0;padding:0;corner-shape:round}
+#sk-auth svg{display:block}
+
+/* background: aurora glow + fading grid */
+#sk-auth .ska-bg{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+#sk-auth .ska-bg i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:ska-drift 22s ease-in-out infinite alternate}
+#sk-auth .ska-bg i:nth-child(1){width:560px;height:560px;background:#2b4dff;top:-220px;left:-160px}
+#sk-auth .ska-bg i:nth-child(2){width:480px;height:480px;background:#7c3aed;top:-80px;right:-220px;animation-delay:-6s}
+#sk-auth .ska-bg i:nth-child(3){width:420px;height:420px;background:#0891b2;bottom:-220px;left:20%;opacity:.3;animation-delay:-12s}
+#sk-auth .ska-grid{position:absolute;inset:0;opacity:.55;
+  background-image:linear-gradient(var(--sk-line) 1px,transparent 1px),linear-gradient(90deg,var(--sk-line) 1px,transparent 1px);background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 20% 10%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 90% 70% at 20% 10%,#000 20%,transparent 75%)}
+@keyframes ska-drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(50px,40px) scale(1.08)}100%{transform:translate(-30px,70px) scale(.95)}}
+
+/* brand */
+#sk-auth .ska-brand{display:flex;align-items:center;gap:11px;font-family:"Plus Jakarta Sans",Inter,system-ui,sans-serif;font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--sk-fg)}
+#sk-auth .ska-brand svg{width:36px;height:36px;filter:drop-shadow(0 6px 18px rgba(110,110,255,.55))}
+#sk-auth .ska-k{background:linear-gradient(120deg,#9db5ff,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+#sk-auth .ska-grad{background:var(--sk-grad);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:ska-shine 8s linear infinite}
+@keyframes ska-shine{to{background-position:-200% 0}}
+
+/* desktop panel */
+#sk-auth .ska-in{position:relative;display:flex;flex-direction:column;width:100%;height:100%;padding:44px clamp(36px,5vw,72px) 30px}
+#sk-auth .ska-main{margin:auto 0;padding:32px 0;max-width:540px}
+#sk-auth .ska-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:5px 14px 5px 5px;border-radius:999px;border:1px solid var(--sk-line2);background:rgba(255,255,255,.04);font-size:13px;color:var(--sk-fg2);position:relative;overflow:hidden}
+#sk-auth .ska-eyebrow b{background:linear-gradient(135deg,#4f7cff,#8b5cf6);color:#fff;font-weight:600;font-size:11.5px;padding:3px 10px;border-radius:999px}
+#sk-auth .ska-eyebrow::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.14) 50%,transparent 70%);transform:translateX(-100%);animation:ska-sweep 4.5s 1.5s ease-in-out infinite}
+@keyframes ska-sweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+#sk-auth h2{font-family:"Plus Jakarta Sans",Inter,system-ui,sans-serif;font-weight:800;font-size:clamp(38px,4.1vw,60px);line-height:1.02;letter-spacing:-.045em;margin-top:22px;color:var(--sk-fg)}
+#sk-auth .ska-lead{margin-top:18px;font-size:clamp(15px,1.25vw,17px);color:var(--sk-fg2);max-width:460px}
+#sk-auth ul{list-style:none;margin-top:30px;display:grid;gap:16px}
+#sk-auth li{display:flex;gap:14px;align-items:flex-start}
+#sk-auth li .ic{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#c9d6ff;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid var(--sk-line2);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px -12px rgba(99,102,241,.8)}
+#sk-auth li .ic svg{width:18px;height:18px}
+#sk-auth li b{display:block;font-weight:600;font-size:15px;color:var(--sk-fg)}
+#sk-auth li span{display:block;font-size:14px;color:var(--sk-fg3);margin-top:1px}
+
+/* animated "autopilot" card */
+#sk-auth .ska-flow{position:relative;max-width:520px;margin-top:40px;border-radius:18px;padding:1px;overflow:hidden;background:var(--sk-line2);box-shadow:0 30px 70px -30px rgba(0,0,0,.9),0 0 50px -20px rgba(124,92,246,.55)}
+#sk-auth .ska-flow::before{content:"";position:absolute;left:50%;top:50%;width:200%;aspect-ratio:1;translate:-50% -50%;background:conic-gradient(from 0deg,transparent 0 62%,#7aa2ff 75%,#a78bfa 85%,#22d3ee 92%,transparent 100%);animation:ska-spin 6s linear infinite}
+@keyframes ska-spin{to{rotate:1turn}}
+#sk-auth .ska-card{position:relative;border-radius:17px;padding:16px 18px 18px;background:linear-gradient(180deg,rgba(17,22,42,.97),rgba(9,12,25,.98))}
+#sk-auth .ska-card-h{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--sk-fg3)}
+#sk-auth .ska-card-h b{color:var(--sk-fg);font-weight:600}
+#sk-auth .ska-live{width:8px;height:8px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:ska-ping 2s ease-out infinite}
+@keyframes ska-ping{0%{box-shadow:0 0 0 0 rgba(52,211,153,.55)}100%{box-shadow:0 0 0 9px rgba(52,211,153,0)}}
+#sk-auth .ska-card-h em{margin-left:auto;font-style:normal;font:11.5px ui-monospace,SFMono-Regular,Menlo,monospace;padding:2px 8px;border-radius:6px;background:rgba(255,255,255,.05)}
+#sk-auth .ska-steps{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+#sk-auth .ska-track{position:absolute;top:15px;left:16.66%;right:16.66%;height:2px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden}
+#sk-auth .ska-track::after{content:"";position:absolute;top:0;bottom:0;left:0;width:100%;background:linear-gradient(90deg,#5b84ff,#a78bfa,#22d3ee);transform-origin:left;animation:ska-fill 7s var(--sk-ease) infinite}
+@keyframes ska-fill{0%,6%{transform:scaleX(0)}38%{transform:scaleX(.5)}70%,90%{transform:scaleX(1)}100%{transform:scaleX(1);opacity:0}}
+#sk-auth .ska-step{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;min-width:0}
+#sk-auth .ska-step i{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;margin-bottom:6px;color:#fff;font-style:normal;
+  background:linear-gradient(135deg,#5b84ff,#8b5cf6);border:1px solid rgba(255,255,255,.18);box-shadow:0 0 0 4px rgba(122,162,255,.12),0 0 24px -2px rgba(124,92,246,.9)}
+#sk-auth .ska-step i svg{width:15px;height:15px}
+#sk-auth .ska-step b{font-size:13px;font-weight:600;color:var(--sk-fg);white-space:nowrap}
+#sk-auth .ska-step small{font-size:11.5px;color:var(--sk-fg3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#sk-auth .ska-step:nth-of-type(1){animation:ska-s1 7s infinite}
+#sk-auth .ska-step:nth-of-type(2){animation:ska-s2 7s infinite}
+#sk-auth .ska-step:nth-of-type(3){animation:ska-s3 7s infinite}
+#sk-auth .ska-step:nth-of-type(1) i{animation:ska-i1 7s infinite}
+#sk-auth .ska-step:nth-of-type(2) i{animation:ska-i2 7s infinite}
+#sk-auth .ska-step:nth-of-type(3) i{animation:ska-i3 7s infinite}
+@keyframes ska-s1{0%{opacity:.35;transform:translateY(4px)}6%,92%{opacity:1;transform:none}100%{opacity:.35}}
+@keyframes ska-s2{0%,30%{opacity:.35;transform:translateY(4px)}40%,92%{opacity:1;transform:none}100%{opacity:.35}}
+@keyframes ska-s3{0%,62%{opacity:.35;transform:translateY(4px)}72%,92%{opacity:1;transform:none}100%{opacity:.35}}
+@keyframes ska-i1{0%{filter:grayscale(1) brightness(.6);scale:.85}6%{scale:1.12}10%,92%{filter:none;scale:1}100%{filter:grayscale(1) brightness(.6)}}
+@keyframes ska-i2{0%,30%{filter:grayscale(1) brightness(.6);scale:.85}40%{scale:1.12;filter:none}44%,92%{filter:none;scale:1}100%{filter:grayscale(1) brightness(.6)}}
+@keyframes ska-i3{0%,62%{filter:grayscale(1) brightness(.6);scale:.85}72%{scale:1.12;filter:none}76%,92%{filter:none;scale:1}100%{filter:grayscale(1) brightness(.6)}}
+#sk-auth .ska-step:nth-of-type(3) i{background:linear-gradient(135deg,#34d399,#10b981);box-shadow:0 0 0 4px rgba(52,211,153,.12),0 0 24px -2px rgba(16,185,129,.9)}
+
+#sk-auth .ska-foot{display:flex;justify-content:flex-end;gap:14px;font-size:12.5px;line-height:16px;color:var(--sk-fg3);padding-top:18px}
+#sk-auth .ska-band{display:none}
+
+/* entrance */
+#sk-auth .ska-up{animation:ska-up .9s var(--sk-ease) both}
+#sk-auth .ska-up.d1{animation-delay:.06s}#sk-auth .ska-up.d2{animation-delay:.14s}#sk-auth .ska-up.d3{animation-delay:.22s}#sk-auth .ska-up.d4{animation-delay:.34s}
+@keyframes ska-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* wide screens: 50/50 split. Twenty's own app root moves to the right half. */
+@media (min-width:900px){
+  html.sk-split #sk-auth{position:fixed;top:0;left:0;bottom:0;width:50%;z-index:1}
+  html.sk-split #root{margin-left:50%;width:50%}
+  /* the AGPL "Source code" link (source-link.html) sits in the panel footer */
+  html.sk-split #sk-source{left:clamp(36px,5vw,72px)!important;bottom:30px!important;z-index:2;color:#8189ab!important;font:12.5px/16px Inter,ui-sans-serif,system-ui,sans-serif!important}
+  html.sk-split #sk-source:hover{color:#f4f6ff!important}
+}
+@media (min-width:900px) and (max-height:820px){
+  #sk-auth .ska-in{padding-top:32px}
+  #sk-auth .ska-main{padding:20px 0}
+  #sk-auth .ska-lead{display:none}
+  #sk-auth h2{font-size:clamp(34px,3.6vw,52px);margin-top:18px}
+  #sk-auth ul{margin-top:22px;gap:12px}
+  #sk-auth .ska-flow{margin-top:28px}
+}
+@media (min-width:900px) and (max-height:700px){
+  #sk-auth .ska-flow{display:none}
+}
+@media (min-width:900px) and (max-width:1100px){
+  #sk-auth h2{font-size:36px}
+  #sk-auth .ska-step small{display:none}
+}
+
+/* phones and narrow windows: a slim brand band above Twenty's normal full-width form */
+@media (max-width:899.98px){
+  html.sk-split #sk-auth{position:relative;height:56px;border-bottom:1px solid rgba(255,255,255,.06)}
+  #sk-auth .ska-in{display:none}
+  #sk-auth .ska-band{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:0 16px}
+  #sk-auth .ska-band .ska-brand{font-size:17px;gap:9px}
+  #sk-auth .ska-band .ska-brand svg{width:28px;height:28px}
+  #sk-auth .ska-band p{font-family:"Plus Jakarta Sans",Inter,system-ui,sans-serif;font-weight:700;font-size:13.5px;letter-spacing:-.01em;white-space:nowrap}
+  #sk-auth .ska-bg i{filter:blur(40px)}
+  #sk-auth .ska-bg i:nth-child(1){width:220px;height:220px;top:-150px;left:-40px}
+  #sk-auth .ska-bg i:nth-child(2){width:220px;height:220px;top:-140px;right:-40px}
+  #sk-auth .ska-bg i:nth-child(3){display:none}
+}
+@media (max-width:359px){#sk-auth .ska-band p{display:none}}
+
+@media (prefers-reduced-motion:reduce){
+  #sk-auth *,#sk-auth *::before,#sk-auth *::after{animation:none!important;transition:none!important}
+  #sk-auth .ska-flow::before{display:none}
+}
+</style>
+<aside id="sk-auth" aria-label="About SalesKnot" hidden>
+  <div class="ska-bg" aria-hidden="true"><i></i><i></i><i></i><span class="ska-grid"></span></div>
+  <div class="ska-in">
+    <div class="ska-brand ska-up"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="skag" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b7cff"/><stop offset=".55" stop-color="#7c5cf6"/><stop offset="1" stop-color="#a855f7"/></linearGradient><radialGradient id="skah" cx=".22" cy=".12" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient><clipPath id="skat"><circle cx="32" cy="23.3" r="7.5"/></clipPath><clipPath id="skab"><circle cx="32" cy="40.7" r="7.5"/></clipPath><mask id="skaA" maskUnits="userSpaceOnUse" x="-10" y="-10" width="84" height="84"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/><circle cx="39.5" cy="32" r="11.5" fill="none" stroke="#000" stroke-width="10" clip-path="url(#skat)"/></mask><mask id="skaB" maskUnits="userSpaceOnUse" x="-10" y="-10" width="84" height="84"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/><circle cx="24.5" cy="32" r="11.5" fill="none" stroke="#000" stroke-width="10" clip-path="url(#skab)"/></mask></defs><rect width="64" height="64" rx="16" fill="url(#skag)"/><rect width="64" height="64" rx="16" fill="url(#skah)"/><g fill="none" stroke-width="5.6" transform="rotate(-32 32 32)"><circle cx="24.5" cy="32" r="11.5" stroke="#fff" mask="url(#skaA)"/><circle cx="39.5" cy="32" r="11.5" stroke="#b9f3ff" mask="url(#skaB)"/></g></svg><span>Sales<span class="ska-k">Knot</span></span></div>
+    <div class="ska-main">
+      <p class="ska-eyebrow ska-up d1"><b>CRM</b>Automation-first, built for your industry</p>
+      <h2 class="ska-up d1">Your pipeline,<br><span class="ska-grad">on autopilot.</span></h2>
+      <p class="ska-lead ska-up d2">Every lead gets a fast reply and every deal a next step, without the busywork.</p>
+      <ul class="ska-up d3">
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><div><b>Follow-ups that run themselves</b><span>Workflows and AI agents reply, remind and route for you.</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></span><div><b>An edition for your industry</b><span>Real estate, call centres, travel &amp; visa, ready on day one.</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span><div><b>Your data, always yours</b><span>Export everything, any time. Built on open source.</span></div></li>
+      </ul>
+      <div class="ska-flow ska-up d4" aria-hidden="true"><div class="ska-card">
+        <div class="ska-card-h"><span class="ska-live"></span><b>Autopilot</b> is running<em>0:02 response</em></div>
+        <div class="ska-steps">
+          <span class="ska-track"></span>
+          <div class="ska-step"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></i><b>New lead</b><small>Priya S. · website</small></div>
+          <div class="ska-step"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17l.7 1.8 1.8.7-1.8.7L19 22l-.7-1.8-1.8-.7 1.8-.7z"/></svg></i><b>AI follow-up</b><small>sent in 2 minutes</small></div>
+          <div class="ska-step"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></i><b>Viewing booked</b><small>Thu · 4:00 pm</small></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="ska-foot">© OpsKnot · SalesKnot CRM</div>
+  </div>
+  <div class="ska-band">
+    <div class="ska-brand"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="skbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b7cff"/><stop offset=".55" stop-color="#7c5cf6"/><stop offset="1" stop-color="#a855f7"/></linearGradient><radialGradient id="skbh" cx=".22" cy=".12" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient><clipPath id="skbt"><circle cx="32" cy="23.3" r="7.5"/></clipPath><clipPath id="skbb"><circle cx="32" cy="40.7" r="7.5"/></clipPath><mask id="skbA" maskUnits="userSpaceOnUse" x="-10" y="-10" width="84" height="84"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/><circle cx="39.5" cy="32" r="11.5" fill="none" stroke="#000" stroke-width="10" clip-path="url(#skbt)"/></mask><mask id="skbB" maskUnits="userSpaceOnUse" x="-10" y="-10" width="84" height="84"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/><circle cx="24.5" cy="32" r="11.5" fill="none" stroke="#000" stroke-width="10" clip-path="url(#skbb)"/></mask></defs><rect width="64" height="64" rx="16" fill="url(#skbg)"/><rect width="64" height="64" rx="16" fill="url(#skbh)"/><g fill="none" stroke-width="5.6" transform="rotate(-32 32 32)"><circle cx="24.5" cy="32" r="11.5" stroke="#fff" mask="url(#skbA)"/><circle cx="39.5" cy="32" r="11.5" stroke="#b9f3ff" mask="url(#skbB)"/></g></svg><span>Sales<span class="ska-k">Knot</span></span></div>
+    <p class="ska-grad">Your pipeline, on autopilot.</p>
+  </div>
+</aside>
+<script>
+  (function () {
+    var panel = document.getElementById('sk-auth');
+    if (!panel || !document.body) return;
+    // Sit before Twenty's #root so the phone band flows above the form (React only owns #root's children).
+    document.body.insertBefore(panel, document.body.firstChild);
+    var html = document.documentElement;
+    var authPages = /^\/(welcome|sign-in|sign-up|invite\/|reset-password|verify)/;
+    var on = null;
+    function update() {
+      var next = authPages.test(location.pathname);
+      if (next === on) return;
+      on = next;
+      html.classList.toggle('sk-split', on);
+      panel.hidden = !on;
+    }
+    var queued = false;
+    function schedule() {
+      if (queued) return;
+      queued = true;
+      (window.requestAnimationFrame || setTimeout)(function () { queued = false; update(); });
+    }
+    ['pushState', 'replaceState'].forEach(function (m) {
+      var orig = history[m];
+      if (typeof orig !== 'function') return;
+      history[m] = function () { var r = orig.apply(this, arguments); update(); return r; };
+    });
+    window.addEventListener('popstate', update);
+    window.addEventListener('hashchange', update);
+    // Safety net for navigations that bypass the history API wrappers.
+    new MutationObserver(schedule).observe(document.getElementById('root') || document.body, { childList: true, subtree: true });
+    update();
+  })();
+</script>
