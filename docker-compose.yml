@@ -13,6 +13,7 @@ x-app: &app
   environment: &app-env
     REDIS_URL: redis://redis:6379
     LOGIC_FUNCTION_TYPE: LOCAL   # lets industry packs run their automations
+    TELEMETRY_ENABLED: "false"  # don't send usage events to Twenty's telemetry service
   depends_on:
     redis:
       condition: service_healthy

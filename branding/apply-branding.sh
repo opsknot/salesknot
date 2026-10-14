@@ -71,4 +71,10 @@ find "$EMAILS" \( -name '*.js' -o -name '*.mjs' \) -exec sed -i -E \
   -e "s/Twenty\\.com, Public Benefit Corporation/$C/g" \
   -e "s/\\bTwenty\\b/$N/g" {} +
 
+# 6. Everything else users can see that still says Twenty or links to twenty.com (all languages, server
+#    messages, AI assistant prompts, help links). See strip-twenty.mjs for what is kept and why.
+BRAND_NAME="$BRAND_NAME" BRAND_WEBSITE="$BRAND_WEBSITE" BRAND_DOCS_URL="$BRAND_DOCS_URL" \
+BRAND_CONTACT_URL="$BRAND_CONTACT_URL" BRAND_SOURCE_URL="$BRAND_SOURCE_URL" BRAND_APP_DOMAIN="$BRAND_APP_DOMAIN" \
+  node /tmp/branding/strip-twenty.mjs
+
 echo "Branding applied: $BRAND_NAME"
