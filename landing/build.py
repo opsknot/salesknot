@@ -83,7 +83,7 @@ def footer():
       <div><h4>Product</h4><ul><li><a href="/features/">Core CRM</a></li><li><a href="/features/#automation">Workflow automation</a></li><li><a href="/features/#ai-agents">AI agents</a></li><li><a href="/pricing/">Pricing</a></li><li><a href="{SIGNIN}">Sign in</a></li></ul></div>
       <div><h4>Editions</h4><ul>{eds}</ul></div>
       <div><h4>Company</h4><ul><li><a href="/about/">About</a></li><li><a href="/faq/">FAQ</a></li><li><a href="{DEMO}">Book a demo</a></li><li><a href="https://opsknot.com/salesknot/">OpsKnot</a></li></ul></div>
-      <div><h4>Contact</h4><ul><li><a href="mailto:info@opsknot.com">info@opsknot.com</a></li><li><a href="https://www.linkedin.com/company/opsknot/">LinkedIn</a></li><li><a href="https://opsknot.com/privacy-policy/">Privacy</a></li><li><a href="https://opsknot.com/terms/">Terms</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="mailto:info@opsknot.com">info@opsknot.com</a></li><li><a href="https://www.linkedin.com/company/opsknot/">LinkedIn</a></li><li><a href="https://opsknot.com/privacy-policy/">Privacy</a></li><li><a href="https://opsknot.com/terms/">Terms</a></li><li><a href="https://github.com/opsknot/salesknot" rel="noopener">Open-source licence</a></li></ul></div>
     </div>
     <div class="fbot"><span>© <span id="y">2026</span> SalesKnot by OpsKnot. All rights reserved.</span><span>For teams in the US, UK, UAE and worldwide.</span></div>
   </div>
