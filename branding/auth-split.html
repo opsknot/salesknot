@@ -1,4 +1,4 @@
-<!-- SalesKnot: split sign-in layout. Left: marketing panel. Right: Twenty's own auth screens, unchanged.
+<!-- SalesKnot: split sign-in layout. Left: marketing panel. Right: the app's own sign-in screens, unchanged.
      Shown only on auth routes; removed from view as soon as the app navigates anywhere else. -->
 <style>
 #sk-auth{display:none}
@@ -90,7 +90,7 @@ html.sk-split #sk-auth{
 #sk-auth .ska-up.d1{animation-delay:.06s}#sk-auth .ska-up.d2{animation-delay:.14s}#sk-auth .ska-up.d3{animation-delay:.22s}#sk-auth .ska-up.d4{animation-delay:.34s}
 @keyframes ska-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
-/* wide screens: 50/50 split. Twenty's own app root moves to the right half. */
+/* wide screens: 50/50 split. The app root moves to the right half. */
 @media (min-width:900px){
   html.sk-split #sk-auth{position:fixed;top:0;left:0;bottom:0;width:50%;z-index:1}
   html.sk-split #root{margin-left:50%;width:50%}
@@ -114,7 +114,7 @@ html.sk-split #sk-auth{
   #sk-auth .ska-step small{display:none}
 }
 
-/* phones and narrow windows: a slim brand band above Twenty's normal full-width form */
+/* phones and narrow windows: a slim brand band above the normal full-width form */
 @media (max-width:899.98px){
   html.sk-split #sk-auth{position:relative;height:56px;border-bottom:1px solid rgba(255,255,255,.06)}
   #sk-auth .ska-in{display:none}
@@ -168,7 +168,7 @@ html.sk-split #sk-auth{
   (function () {
     var panel = document.getElementById('sk-auth');
     if (!panel || !document.body) return;
-    // Sit before Twenty's #root so the phone band flows above the form (React only owns #root's children).
+    // Sit before the app's #root so the phone band flows above the form (React only owns #root's children).
     document.body.insertBefore(panel, document.body.firstChild);
     var html = document.documentElement;
     var authPages = /^\/(welcome|sign-in|sign-up|invite\/|reset-password|verify)/;

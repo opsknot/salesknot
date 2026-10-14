@@ -77,4 +77,18 @@ BRAND_NAME="$BRAND_NAME" BRAND_WEBSITE="$BRAND_WEBSITE" BRAND_DOCS_URL="$BRAND_D
 BRAND_CONTACT_URL="$BRAND_CONTACT_URL" BRAND_SOURCE_URL="$BRAND_SOURCE_URL" BRAND_APP_DOMAIN="$BRAND_APP_DOMAIN" \
   node /tmp/branding/strip-twenty.mjs
 
+# 7. New workspaces start empty: skip the sample companies, people and opportunities Twenty adds on creation
+#    (owner's rule: no placeholder data in any CRM). Fails the build if upstream moves this code.
+node -e '
+  const fs = require("fs");
+  const f = "/app/packages/twenty-server/dist/engine/core-modules/workspace/services/workspace.service.js";
+  let s = fs.readFileSync(f, "utf8");
+  for (const fn of ["prefillCompanies", "prefillPeople", "prefillOpportunities"]) {
+    const re = new RegExp("await \\(0, _[a-z]+\\." + fn + "\\)\\(queryRunner\\.manager, schemaName\\);");
+    if (!re.test(s)) { console.error("sample-data patch: " + fn + " call not found"); process.exit(1); }
+    s = s.replace(re, "/* SalesKnot: no sample " + fn.slice(7).toLowerCase() + " */");
+  }
+  fs.writeFileSync(f, s);
+'
+
 echo "Branding applied: $BRAND_NAME"

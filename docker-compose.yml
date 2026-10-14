@@ -68,6 +68,18 @@ services:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
 
+  demo:   # demo bookings and 7-day magic links on salesknot.app/demo/ (see demo/README.md)
+    build: ./demo
+    image: salesknot-demo:latest
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      server:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+        required: false   # skipped when using Neon (then set DEMO_DATABASE_URL)
+
   web:   # marketing page on salesknot.app/, everything else passed to the server
     image: nginx:1.27-alpine
     restart: unless-stopped

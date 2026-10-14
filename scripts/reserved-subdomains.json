@@ -1,0 +1,34 @@
+{
+  "_about": "Subdomains of salesknot.app that customers can never take. Checked by scripts/new-workspace.mjs. Add a new edition's slug to 'editions' (or move it there from 'futureEditions') before building it. The owner still checks every customer subdomain by hand before a workspace is created.",
+  "editions": ["core", "call-centre", "real-estate", "travel-tours-and-visa", "legal-law", "import-export"],
+  "futureEditions": [
+    "healthcare", "clinic", "dental", "pharmacy", "pharma", "hospital",
+    "education", "school", "college", "university", "academy", "training", "admissions",
+    "recruitment", "staffing", "hr", "payroll",
+    "insurance", "finance", "accounting", "banking", "lending", "mortgage", "microfinance",
+    "property-management", "construction", "architecture", "interior-design", "solar",
+    "automotive", "car-dealer", "car-rental", "logistics", "freight", "courier", "transport", "fleet",
+    "manufacturing", "wholesale", "distribution", "trading", "textile", "agriculture",
+    "ecommerce", "retail", "franchise", "restaurant", "hospitality", "hotel", "tourism", "events", "wedding",
+    "fitness", "gym", "salon", "spa", "beauty",
+    "agency", "marketing", "media", "consulting", "it-services", "software", "saas", "telecom", "isp",
+    "field-service", "maintenance", "security-services", "cleaning",
+    "nonprofit", "ngo", "charity", "church", "mosque", "government",
+    "legal", "law", "law-firm", "immigration", "visa", "travel", "tours", "call-center", "callcentre", "contact-centre",
+    "property", "realestate", "real-estate-agency", "import", "export"
+  ],
+  "brand": ["salesknot", "opsknot", "knot", "sales-knot", "ops-knot", "official", "team", "staff", "owner"],
+  "system": [
+    "www", "app", "my", "api", "admin", "administrator", "root", "system", "server", "host", "localhost",
+    "demo", "demos", "trial", "test", "testing", "dev", "development", "staging", "stage", "beta", "alpha", "sandbox", "preview", "internal", "example",
+    "auth", "login", "signin", "sign-in", "signup", "sign-up", "logout", "sso", "oauth", "account", "accounts", "profile", "settings", "verify", "invite", "reset-password",
+    "mail", "email", "smtp", "imap", "pop", "mx", "webmail", "ns", "ns1", "ns2", "dns", "ftp", "sftp", "vpn", "proxy", "gateway",
+    "static", "cdn", "assets", "files", "uploads", "images", "media-files", "storage", "backup", "backups",
+    "docs", "help", "support", "status", "blog", "news", "community", "forum", "academy-docs",
+    "billing", "pay", "payment", "payments", "checkout", "invoice", "invoices", "subscribe", "subscription",
+    "legal-docs", "terms", "privacy", "security", "trust", "dpa", "gdpr", "compliance", "abuse",
+    "about", "pricing", "contact", "booking", "sales", "partner", "partners", "affiliate", "affiliates", "marketplace", "store", "shop", "apps",
+    "editions", "edition", "features", "faq", "crm", "metadata", "graphql", "rest", "webhook", "webhooks", "mcp", "well-known", "healthz",
+    "us", "uk", "eu", "uae", "pk", "ae", "gb", "global", "world"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "salesknot-demo-gateway",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SalesKnot demo bookings and 7-day magic links",
+  "type": "module",
+  "main": "src/server.mjs",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.16",
+    "pg": "^8.13.1"
+  }
+}

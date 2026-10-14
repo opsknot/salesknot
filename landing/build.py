@@ -10,7 +10,7 @@ from datetime import date
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "public")
 SITE = "https://salesknot.app"
-DEMO = "https://opsknot.com/contact/booking/"
+DEMO = "https://opsknot.com/contact/booking/?topic=salesknot"  # opens the form with SalesKnot chosen
 SIGNIN = "https://my.salesknot.app"
 TODAY = date.today().isoformat()
 import hashlib
@@ -26,19 +26,19 @@ def mark(uid="m"):
     return f'''<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="{uid}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b7cff"/><stop offset=".55" stop-color="#7c5cf6"/><stop offset="1" stop-color="#a855f7"/></linearGradient><radialGradient id="{uid}h" cx=".22" cy=".12" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient><clipPath id="{uid}t"><circle cx="32" cy="23.3" r="7.5"/></clipPath><clipPath id="{uid}b"><circle cx="32" cy="40.7" r="7.5"/></clipPath><mask id="{uid}A" maskUnits="userSpaceOnUse" x="-10" y="-10" width="84" height="84"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/><circle cx="39.5" cy="32" r="11.5" fill="none" stroke="#000" stroke-width="10" clip-path="url(#{uid}t)"/></mask><mask id="{uid}B" maskUnits="userSpaceOnUse" x="-10" y="-10" width="84" height="84"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/><circle cx="24.5" cy="32" r="11.5" fill="none" stroke="#000" stroke-width="10" clip-path="url(#{uid}b)"/></mask></defs><rect width="64" height="64" rx="16" fill="url(#{uid}g)"/><rect width="64" height="64" rx="16" fill="url(#{uid}h)"/><g fill="none" stroke-width="5.6" transform="rotate(-32 32 32)"><circle cx="24.5" cy="32" r="11.5" stroke="#fff" mask="url(#{uid}A)"/><circle cx="39.5" cy="32" r="11.5" stroke="#b9f3ff" mask="url(#{uid}B)"/></g></svg>'''
 
 EDITIONS = [
-    dict(slug="real-estate-crm", name="Real Estate", emo="🏙️", live=True,
+    dict(slug="real-estate-crm", name="Real Estate", emo="🏙️", live=True, demo="real-estate",
          nav="Properties, showings, buyer stages",
          blurb="Properties, showings, buyer stages and agency dashboards."),
-    dict(slug="call-centre-crm", name="Call Centre", emo="🎧", live=False, early=True,
+    dict(slug="call-centre-crm", name="Call Centre", emo="🎧", live=False, early=True, demo="call-centre",
          nav="Campaigns, call lists, callbacks",
          blurb="Campaigns, call lists, dispositions, callbacks and agent dashboards."),
-    dict(slug="travel-agency-crm", name="Travel & Visa", emo="✈️", live=False, early=True,
+    dict(slug="travel-agency-crm", name="Travel & Visa", emo="✈️", live=False, early=True, demo="travel-tours-and-visa",
          nav="Enquiries, visa cases, payments",
          blurb="Enquiries, visa cases, document checklists, payments and receipts."),
-    dict(slug="law-firm-crm", name="Legal", emo="⚖️", live=False,
+    dict(slug="law-firm-crm", name="Legal", emo="⚖️", live=False, sub="legal-law",
          nav="Matters, clients, deadlines",
          blurb="Matters, clients, deadlines, documents and billable follow-ups."),
-    dict(slug="import-export-crm", name="Import & Export", emo="🚢", live=False,
+    dict(slug="import-export-crm", name="Import & Export", emo="🚢", live=False, sub="import-export",
          nav="Buyers, suppliers, shipments",
          blurb="Buyers, suppliers, quotations, shipments and documents."),
 ]
@@ -152,10 +152,10 @@ def page(path, title, desc, body, active="", schema=None, crumbs=None, og_title=
 
 # ---------------------------------------------------------------- building blocks
 
-def phero(kicker, h1, lead, crumbs, extra="", center=False, ctas=True):
+def phero(kicker, h1, lead, crumbs, extra="", center=False, ctas=True, demo=DEMO):
     cr = '<nav class="crumbs in-load" aria-label="Breadcrumb"><a href="/">Home</a>' + "".join(
         f'<span><a href="{p}">{esc(n)}</a></span>' for n, p in crumbs) + "</nav>"
-    c = f'<div class="ctas in-load" style="--d:.4s"><a class="btn btn-main" href="{DEMO}">Book a demo <span class="arr">→</span></a><a class="btn btn-ghost" href="/pricing/">See pricing</a></div>' if ctas else ""
+    c = f'<div class="ctas in-load" style="--d:.4s"><a class="btn btn-main" href="{demo}">Book a demo <span class="arr">→</span></a><a class="btn btn-ghost" href="/pricing/">See pricing</a></div>' if ctas else ""
     return f'''<div class="phero{' center' if center else ''}"><div class="wrap">
 {cr}{extra}
 <div class="in-load" style="--d:.08s;margin-top:22px"><span class="kicker">{kicker}</span></div>
@@ -589,7 +589,8 @@ def edition(e):
     elif e.get("early"): cta_s = f"Book a demo and we'll set up your workspace with the core CRM and the {esc(e['name'])} edition, with your data imported."
     else: cta_s = "Start on the core CRM today and we'll shape your workspace for your industry, then move you onto the edition when it launches."
     others = "".join(f'<a class="chips" href="/editions/{o["slug"]}/" style="margin:0"><span>{o["emo"]} {esc(o["name"])} CRM</span></a>' for o in EDITIONS if o["slug"] != e["slug"])
-    body = phero(d["kicker"], d["h1"], d["lead"], [("Editions", "/editions/"), (e["name"], f'/editions/{e["slug"]}/')], extra=extra) + f'''
+    demo = DEMO + (f'&edition={e["demo"]}' if e.get("demo") else "")
+    body = phero(d["kicker"], d["h1"], d["lead"], [("Editions", "/editions/"), (e["name"], f'/editions/{e["slug"]}/')], extra=extra, demo=demo) + f'''
 <section style="padding-top:20px"><div class="wrap">
 <div data-r><span class="kicker">What's included</span></div>
 <h2 data-r style="--d:.08s" class="sm">The full <a href="/features/" style="color:inherit;text-decoration:underline;text-decoration-color:rgba(122,162,255,.5);text-underline-offset:6px">core CRM</a>, plus what {esc(e["name"].lower())} teams use.</h2>
@@ -691,6 +692,15 @@ def notfound():
     p = page("/404.html", "Page not found | SalesKnot", "The page you are looking for does not exist.", body)
     return p.replace('<meta name="robots" content="index, follow, max-image-preview:large">', '<meta name="robots" content="noindex">')
 
+def coming_soon(e):
+    # Served on the edition's own subdomain (e.g. legal-law.salesknot.app) until the edition is built
+    body = phero("Coming soon", f'{esc(e["name"])} edition<br><span class="grad">is on its way.</span>',
+                 f'{esc(e["blurb"])} We are building it on top of the SalesKnot core CRM. Book a call and we will tell you as soon as it opens, or show you the core CRM today.',
+                 [("Editions", "/editions/"), (e["name"], f'/editions/{e["slug"]}/')], center=True)
+    p = page(f'/editions/{e["slug"]}/', f'{e["name"]} CRM edition: coming soon | SalesKnot',
+             f'The SalesKnot {e["name"]} edition is coming soon.', body, "editions")
+    return p.replace('<meta name="robots" content="index, follow, max-image-preview:large">', '<meta name="robots" content="noindex">')
+
 # ---------------------------------------------------------------- write
 
 def write(rel, content):
@@ -720,6 +730,8 @@ def main():
     for e in EDITIONS: pages[f'/editions/{e["slug"]}/'] = edition(e)
     for p, c in pages.items(): write(p, c)
     write("/404.html", notfound())
+    for e in EDITIONS:
+        if e.get("sub"): write(f'/soon/{e["sub"]}.html', coming_soon(e))
 
     pri = {"/": "1.0", "/features/": "0.9", "/pricing/": "0.9", "/editions/": "0.8"}
     urls = "".join(f"<url><loc>{SITE}{p}</loc><lastmod>{TODAY}</lastmod><priority>{pri.get(p, '0.7')}</priority></url>" for p in pages)

@@ -35,6 +35,8 @@ const links = [
   [/yourco\.twenty\.com/g, `yourco.${APP_DOMAIN}`],
   [/\b([a-z]+(?:\.[a-z]+)?)@twenty\.com\b/g, '$1@example.com'],
   [/Felix from Twenty/g, NAME],
+  // second line of the email footer, under the company name (upstream shows its own offices)
+  [/i18n\._\("San Francisco \/ Paris"\)/g, JSON.stringify(new URL(SITE).host)],
   // name of the MCP server in the copy-paste configs on Settings > APIs & MCP
   [/server:\{name:"twenty",/g, `server:{name:"${NAME.toLowerCase().replace(/[^a-z0-9]+/g, '-')}",`],
 ];
