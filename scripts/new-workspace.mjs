@@ -65,12 +65,17 @@ const gql = async (query, variables, token) => {
   return json.data;
 };
 
+// Your admin account signs in through a workspace it belongs to (e.g. SALESKNOT_ADMIN_SUBDOMAIN=core)
 const { getLoginTokenFromCredentials } = await gql(
   `mutation($e: String!, $p: String!, $o: String!) {
     getLoginTokenFromCredentials(email: $e, password: $p, origin: $o) { loginToken { token } }
   }`,
   { e: email, p: password, o: origin },
-);
+).catch((err) => {
+  if (/Workspace not found/i.test(err.message) && !ADMIN_SUBDOMAIN)
+    fail('Sign-in needs one of your existing workspaces. Run it again with SALESKNOT_ADMIN_SUBDOMAIN=<workspace> in front, e.g. SALESKNOT_ADMIN_SUBDOMAIN=core node scripts/new-workspace.mjs ...');
+  throw err;
+});
 const { getAuthTokensFromLoginToken } = await gql(
   `mutation($l: String!, $o: String!) {
     getAuthTokensFromLoginToken(loginToken: $l, origin: $o) {
