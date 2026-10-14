@@ -31,15 +31,7 @@ sed -i \
   "$FRONT/index.html"
 sed -i -e "s|\"Twenty\"|\"$N\"|g" "$FRONT/manifest.json"
 
-# 3. AGPL section 13: a small "Source code" link on the sign-in pages
-node -e '
-  const fs = require("fs");
-  const f = process.argv[1];
-  const snippet = fs.readFileSync("/tmp/branding/source-link.html", "utf8").replace("__SOURCE_URL__", process.argv[2]);
-  fs.writeFileSync(f, fs.readFileSync(f, "utf8").replace("</body>", snippet + "</body>"));
-' "$FRONT/index.html" "$BRAND_SOURCE_URL"
-
-# 3b. Sign-in pages: 50/50 split, SalesKnot panel on the left, Twenty's own form untouched on the right
+# 3. Sign-in pages: 50/50 split, SalesKnot panel on the left, Twenty's own form untouched on the right
 node -e '
   const fs = require("fs");
   const f = process.argv[1];
@@ -70,6 +62,18 @@ find "$EMAILS" \( -name '*.js' -o -name '*.mjs' \) -exec sed -i -E \
   -e "s|https://twenty.com/\"|$W\"|g" \
   -e "s/Twenty\\.com, Public Benefit Corporation/$C/g" \
   -e "s/\\bTwenty\\b/$N/g" {} +
+
+# 5b. Emails: drop the "Github" link from the footer (owner's choice: no repository links in emails).
+#     Fails the build if upstream changes the footer so the link would quietly come back.
+node -e '
+  const fs = require("fs");
+  const re = /[ \t]*\/\*#__PURE__\*\/ [^\n]*\(Column, \{ children: [^\n]*Link\$1, \{\s*href: "[^"]*",\s*value: i18n\._\("Github"\),\s*"aria-label": [^\n]*\n\s*\}\) \}\) \}\),\n/;
+  for (const f of ["index.js", "index.mjs"].map((n) => process.argv[1] + "/" + n)) {
+    const s = fs.readFileSync(f, "utf8");
+    if (!re.test(s)) { console.error("email footer patch: Github link not found in " + f); process.exit(1); }
+    fs.writeFileSync(f, s.replace(re, ""));
+  }
+' "$EMAILS"
 
 # 6. Everything else users can see that still says Twenty or links to twenty.com (all languages, server
 #    messages, AI assistant prompts, help links). See strip-twenty.mjs for what is kept and why.
