@@ -14,8 +14,10 @@ DEMO = "https://opsknot.com/contact/booking/?topic=salesknot"  # opens the form 
 SIGNIN = "https://my.salesknot.app"
 TODAY = date.today().isoformat()
 import hashlib
-# cache-busting version for site.css / site.js: changes whenever their content changes
-VER = hashlib.md5(b"".join(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "src", f), "rb").read() for f in ("site.css", "site.js"))).hexdigest()[:10]
+# shared CSS/JS in src/ (chat.* is the live chat widget, which talks to opsknot.com/api/salesknot-chat/)
+ASSETS = ("site.css", "site.js", "chat.css", "chat.js")
+# cache-busting version for the files above: changes whenever their content changes
+VER = hashlib.md5(b"".join(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "src", f), "rb").read() for f in ASSETS)).hexdigest()[:10]
 
 def esc(s): return html.escape(s, quote=True)
 
@@ -135,6 +137,7 @@ def page(path, title, desc, body, active="", schema=None, crumbs=None, og_title=
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/_site/site.css?v={VER}">
+<link rel="stylesheet" href="/_site/chat.css?v={VER}">
 {ld_html}
 </head>
 <body>
@@ -146,6 +149,7 @@ def page(path, title, desc, body, active="", schema=None, crumbs=None, og_title=
 </main>
 {footer()}
 <script src="/_site/site.js?v={VER}" defer></script>
+<script src="/_site/chat.js?v={VER}" defer></script>
 </body>
 </html>
 '''
@@ -716,7 +720,7 @@ def main():
             p = os.path.join(OUT, n)
             shutil.rmtree(p) if os.path.isdir(p) else os.remove(p)
     os.makedirs(os.path.join(OUT, "_site"), exist_ok=True)
-    for f in ("site.css", "site.js"):
+    for f in ASSETS:
         shutil.copy(os.path.join(ROOT, "src", f), os.path.join(OUT, "_site", f))
     assets = os.path.join(ROOT, "src", "_site")  # icons, logo, share image
     if os.path.isdir(assets):
