@@ -73,7 +73,7 @@ async function handleBooking(req, res) {
   if (!bookingLimit(ip)) return send(res, 429, { error: 'Too many requests. Please try again in a minute.' });
   const body = await readJson(req);
   await createBooking(body);
-  return send(res, 201, { ok: true });
+  return send(res, 201, { ok: true, pending: true });
 }
 
 async function handleLink(req, res, token) {

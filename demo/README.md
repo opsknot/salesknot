@@ -1,17 +1,19 @@
 # SalesKnot demo gateway
 
 A small service (`demo` in `docker-compose.yml`) that lets visitors of opsknot.com try a SalesKnot
-edition for 7 days without a password:
+edition for 7 days without a password, once the owner approves them:
 
 1. The opsknot.com website's server sends a booking to `POST /demo/api/bookings`.
-2. The gateway stores it in its own database (`salesknot_demos`) and emails a magic link
-   `https://salesknot.app/demo/go/<token>`. One booking per email per edition.
+2. The gateway stores it in its own database (`salesknot_demos`) as waiting for approval. Nothing is
+   emailed yet. One booking per email per edition.
+   The owner checks who booked, then runs `cli.mjs approve <email> <edition>`, which emails a magic
+   link `https://salesknot.app/demo/go/<token>` (or `decline` to turn it down).
 3. Clicking the link signs the visitor straight into that edition's demo workspace
    (`https://<subdomain>.salesknot.app`). The link works as often as they like for 7 days.
 4. After 7 days the link shows "This demo link has expired", and an hourly job removes the visitor
    from the workspace, which also ends any session they still have open.
 
-Nobody can get into a demo workspace without a booking: visitors never get a password, the
+Nobody can get into a demo workspace without an approved booking: visitors never get a password, the
 workspaces' public invite link is switched off, and only the gateway adds people.
 
 Everything is under `/demo/`, so nginx passes it through unchanged:
@@ -50,12 +52,11 @@ edition somewhere else, set `DEMO_WORKSPACE_URLS`, e.g. `{"call-centre":"https:/
 
 | status | body | when |
 |---|---|---|
-| 201 | `{"ok":true}` | booking stored and email sent |
-| 409 | `{"error":"This email has already been used for a Real Estate demo. Please check your inbox, or contact us."}` | that email already booked that edition. Emails are compared trimmed and lowercased, without `+tags`, and for Gmail without dots |
+| 201 | `{"ok":true,"pending":true}` | booking stored, waiting for the owner's approval (no email yet) |
+| 409 | `{"error":"This email has already requested a Real Estate demo. We'll be in touch by email, or you can contact us."}` | that email already booked that edition. Emails are compared trimmed and lowercased, without `+tags`, and for Gmail without dots |
 | 400 | `{"error":"…"}` | unknown or coming-soon edition, bad email, missing name, bad JSON |
 | 401 | `{"error":"Unauthorized"}` | wrong or missing secret |
 | 429 | `{"error":"…"}` | more than 30 bookings a minute from one address, or repeated wrong secrets |
-| 502 | `{"error":"…"}` | the email could not be sent (nothing is stored, the visitor can try again) |
 
 The `error` sentences are written to be shown to the visitor. Call this only from a server, never a browser.
 
@@ -147,7 +148,11 @@ its password without updating `.env`: the gateway signs in with it.
 ## Checking bookings
 
 ```sh
-docker compose exec demo node src/cli.mjs list                        # all bookings, newest first
+docker compose exec demo node src/cli.mjs list                        # all bookings, newest first; new ones say WAITING FOR APPROVAL
+docker compose exec demo node src/cli.mjs approve ayesha@example.com real-estate      # email her the demo link (7 days)
+docker compose exec demo node src/cli.mjs approve ayesha@example.com real-estate 3    # same, link works 3 days (1-30); run again to resend a fresh link
+docker compose exec demo node src/cli.mjs decline ayesha@example.com real-estate      # turn it down; that email can't book this edition again
+docker compose exec demo node src/cli.mjs invite ali@example.com core Ali Raza        # demo for someone who asked by email/WhatsApp (no booking)
 docker compose exec demo node src/cli.mjs revoke ayesha@example.com real-estate   # end a demo now
 docker compose exec demo node src/cli.mjs forget ayesha@example.com real-estate   # end it and let that email book again
 docker compose exec demo node src/cli.mjs sweep                       # remove expired visitors now

@@ -29,6 +29,10 @@ const MIGRATIONS = [
      CONSTRAINT bookings_one_per_edition UNIQUE (normalized_email, edition)
    );
    CREATE INDEX bookings_expiry_idx ON bookings (expires_at) WHERE access_removed_at IS NULL;`,
+  // 2: bookings wait for the owner's approval; the link (token + expiry) is only made on approval
+  `ALTER TABLE bookings ALTER COLUMN token_hash DROP NOT NULL, ALTER COLUMN expires_at DROP NOT NULL;
+   ALTER TABLE bookings ADD COLUMN approved_at timestamptz;
+   UPDATE bookings SET approved_at = created_at;`,
 ];
 
 export const pool = new pg.Pool({ connectionString: config.databaseUrl, max: 5 });

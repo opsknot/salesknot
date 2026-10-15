@@ -2,7 +2,7 @@
   "name": "salesknot-demo-gateway",
   "version": "1.0.0",
   "private": true,
-  "description": "SalesKnot demo bookings and 7-day magic links",
+  "description": "SalesKnot demo bookings, owner approval and 7-day magic links",
   "type": "module",
   "main": "src/server.mjs",
   "engines": { "node": ">=20" },

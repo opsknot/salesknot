@@ -18,9 +18,8 @@ function getTransport() {
   return transport;
 }
 
-export function renderEmail({ firstName, editionName, link, expiresAt, timezone }) {
+export function renderEmail({ firstName, editionName, link, expiresAt, days = config.demoDays, timezone }) {
   const until = formatUntil(expiresAt, timezone);
-  const days = config.demoDays;
   const subject = `Your SalesKnot ${editionName} demo`;
   const text = [
     `Hi ${firstName},`,
@@ -28,7 +27,7 @@ export function renderEmail({ firstName, editionName, link, expiresAt, timezone 
     `Your SalesKnot ${editionName} demo is ready. Open it with this link, no password needed:`,
     link,
     '',
-    `The link is valid for ${days} days, until ${until}. You can use it as often as you like until then.`,
+    `The link is valid for ${days} day${days === 1 ? '' : 's'}, until ${until}. You can use it as often as you like until then.`,
     '',
     'The demo workspace is shared with other people trying SalesKnot, so please do not enter real customer data.',
     '',
@@ -58,7 +57,7 @@ export function renderEmail({ firstName, editionName, link, expiresAt, timezone 
 </td></tr></table>
 </td></tr>
 <tr><td style="padding:20px 32px 0 32px;">
-<p style="margin:0 0 12px 0;font-size:14px;line-height:1.6;color:#4a5368;">Valid for ${days} days, until <strong style="color:#1d2433;">${h(until)}</strong>. You can use the link as often as you like until then.</p>
+<p style="margin:0 0 12px 0;font-size:14px;line-height:1.6;color:#4a5368;">Valid for ${days} day${days === 1 ? '' : 's'}, until <strong style="color:#1d2433;">${h(until)}</strong>. You can use the link as often as you like until then.</p>
 <p style="margin:0 0 12px 0;font-size:14px;line-height:1.6;color:#4a5368;">The demo workspace is shared with other people trying SalesKnot, so please don't enter real customer data.</p>
 <p style="margin:0;font-size:12px;line-height:1.6;color:#7a8296;word-break:break-all;">Button not working? Copy this link into your browser:<br><a href="${h(link)}" style="color:#4f7cff;">${h(link)}</a></p>
 </td></tr>
