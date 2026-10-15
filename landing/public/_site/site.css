@@ -43,15 +43,17 @@ header.top.scrolled,header.top.menu-open{background:rgba(5,7,15,.78);backdrop-fi
 .dd{position:relative}
 .dd>button{all:unset;cursor:pointer;padding:8px 12px;border-radius:10px;display:inline-flex;align-items:center;gap:6px;color:var(--fg-2)}
 .dd>button::after{content:"";width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.7}
-.dd .menu{position:absolute;top:calc(100% + 10px);left:50%;width:420px;transform:translate(-50%,8px);opacity:0;visibility:hidden;transition:all .35s var(--ease);background:rgba(12,16,32,.96);backdrop-filter:blur(14px);border:1px solid var(--line-2);border-radius:18px;padding:10px;box-shadow:0 30px 60px -20px rgba(0,0,0,.8);display:grid;gap:4px}
+.dd .menu{position:absolute;top:calc(100% + 10px);left:50%;width:min(760px,calc(100vw - 32px));transform:translate(-50%,8px);opacity:0;visibility:hidden;transition:all .35s var(--ease);background:rgba(12,16,32,.96);backdrop-filter:blur(14px);border:1px solid var(--line-2);border-radius:18px;padding:12px;box-shadow:0 30px 60px -20px rgba(0,0,0,.8);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .dd:hover .menu,.dd:focus-within .menu{opacity:1;visibility:visible;transform:translate(-50%,0)}
-.dd .menu a{display:flex;gap:14px;align-items:flex-start;padding:12px;border-radius:12px;transition:background .2s}
-.dd .menu a:hover{background:rgba(255,255,255,.05)}
-.dd .menu .e{font-size:22px;line-height:1.2}
-.dd .menu .e svg{width:24px;height:24px;display:block;border-radius:7px}
-.dd .menu a.core-link{background:rgba(122,162,255,.07);margin-bottom:4px}
+.dd .menu a{display:flex;flex-direction:column;gap:10px;align-items:flex-start;padding:16px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02);transition:background .2s,border-color .2s,transform .25s var(--ease)}
+.dd .menu a:hover{background:rgba(122,162,255,.08);border-color:var(--line-2);transform:translateY(-2px)}
+.dd .menu .e{font-size:26px;line-height:1}
+.dd .menu .e svg{width:28px;height:28px;display:block;border-radius:8px}
+.dd .menu a.core-link,.dd .menu a.all-link{grid-column:1/-1;flex-direction:row;align-items:center;gap:14px;padding:12px 16px}
+.dd .menu a.core-link{background:rgba(122,162,255,.07)}
+.dd .menu a.all-link .e{font-size:20px}
 .dd .menu b{display:block;color:var(--fg);font-weight:600;font-size:15px}
-.dd .menu small{color:var(--fg-3);font-size:13px}
+.dd .menu small{display:block;color:var(--fg-3);font-size:13px;line-height:1.4;margin-top:2px}
 .burger{all:unset;display:none;cursor:pointer;width:42px;height:42px;border-radius:12px;border:1px solid var(--line-2);position:relative}
 .burger i{position:absolute;left:12px;right:12px;height:1.5px;background:var(--fg);transition:transform .35s var(--ease),opacity .2s}
 .burger i:nth-child(1){top:15px}.burger i:nth-child(2){top:20px}.burger i:nth-child(3){top:25px}
