@@ -39,7 +39,17 @@ export const EDITIONS = {
       'Record a payment on the invoice. It gets a receipt number and the invoice moves to Partly paid or Paid.',
     ],
   },
-  'import-export': { name: 'Import & Export', subdomain: 'import-export', bookable: false },
+  'import-export': {
+    name: 'Import & Export',
+    subdomain: 'import-export',
+    bookable: false, // set to true once the import-export workspace has the Import & Export pack installed
+    tryThis: [
+      'Add a product with a price per unit, then move an enquiry to Quoted. A numbered draft quotation opens for it.',
+      'Add the product to the quotation as a line. The price fills in and the total adds up by itself.',
+      'Mark the quotation Accepted. An export order opens with the same buyer, terms and lines.',
+      'Add a shipment to the order. It gets a number and its document checklist (invoice, packing list, B/L and more).',
+    ],
+  },
 };
 
 const env = process.env;
