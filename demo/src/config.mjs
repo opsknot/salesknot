@@ -28,7 +28,17 @@ export const EDITIONS = {
       'Move an enquiry to Converted. The contact becomes a client and a visa case opens.',
     ],
   },
-  'legal-law': { name: 'Legal & Law', subdomain: 'legal-law', bookable: false },
+  'legal-law': {
+    name: 'Legal & Law',
+    subdomain: 'legal-law',
+    bookable: false, // set to true once the legal-law workspace has the Legal & Law pack installed
+    tryThis: [
+      'Open a matter with an opposing party who is already a client on another matter. It is flagged as a possible conflict and a review task appears.',
+      'Set an hourly rate on the matter and record time. The amount and the matter\'s unbilled work update by themselves.',
+      'Create an invoice for the matter. It is numbered and picks up all unbilled time.',
+      'Record a payment on the invoice. It gets a receipt number and the invoice moves to Partly paid or Paid.',
+    ],
+  },
   'import-export': { name: 'Import & Export', subdomain: 'import-export', bookable: false },
 };
 
