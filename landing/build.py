@@ -44,6 +44,9 @@ EDITIONS = [
     dict(slug="import-export-crm", name="Import & Export", emo="🚢", live=False, sub="import-export",
          nav="Buyers, suppliers, shipments",
          blurb="Buyers, suppliers, quotations, shipments and documents."),
+    dict(slug="clinic-crm", name="Clinic", emo="🩺", live=False, sub="clinic",
+         nav="Patients, appointments, treatment plans",
+         blurb="Patient enquiries, appointments, treatment plans, payments and recall reminders."),
 ]
 
 # ---------------------------------------------------------------- layout
@@ -581,6 +584,27 @@ EDITION_PAGES = {
             ("What is an import/export CRM?", "An import/export CRM tracks buyers, suppliers, quotations, orders and shipments together, so traders can follow up on quotes and keep buyers informed without spreadsheets."),
             ("Is the Import & Export edition available now?", "It is in development. You can start on the standard SalesKnot CRM today, and we'll move you onto the edition when it launches."),
             ("Can it handle multiple currencies?", "Yes. Currency fields support amounts in different currencies on quotations and orders."),
+        ]),
+    "clinic-crm": dict(
+        title="Clinic CRM for Dental, Skin & Physio Clinics | SalesKnot",
+        desc="A clinic CRM for the front office: patient enquiries, appointments, treatment plans, payments and recall reminders, with automated follow-up. Coming soon.",
+        h1="The front desk that <span class=\"grad\">never forgets a patient.</span>",
+        lead="Turn enquiries into booked appointments, follow treatment plans to completion, and bring patients back on time, with automation handling reminders, no-shows and recalls.",
+        kicker="Clinic CRM",
+        blocks=[
+            ("Patient enquiries", "Every call, WhatsApp and web enquiry tracked from first contact to first visit."),
+            ("Appointments", "Bookings by practitioner and treatment, with durations filled in for you."),
+            ("Treatment plans", "Numbered plans with sessions, quote, discount and balance."),
+            ("Payments & receipts", "Numbered receipts, with each plan's balance kept up to date."),
+            ("Recalls", "Next check-up dates set from the treatment, with reminders when they're due."),
+            ("No-shows & reviews", "Rebook tasks after a no-show and review requests after a visit."),
+        ],
+        flows=[("Patient misses an appointment", "No-show counted and a rebook task created"), ("Treatment completed", "Recall date set from the treatment"), ("Appointment tomorrow", "Reminder task for the front desk")],
+        who=["Dental clinics", "Skin, aesthetic and hair clinics", "Physiotherapy and wellness centres", "Eye, fertility and specialist clinics"],
+        faqs=[
+            ("What is a clinic CRM?", "A clinic CRM runs the front office: enquiries, appointments, treatment plans, payments and recalls, so more enquiries become patients and patients come back on time."),
+            ("Does it store medical records?", "No. The Clinic edition is for the front office and patient relationships only. Clinical notes and medical records stay in your clinical system."),
+            ("Is the Clinic edition available now?", "It is coming soon. You can start on the standard SalesKnot CRM today, and we'll move you onto the edition when it launches."),
         ]),
 }
 

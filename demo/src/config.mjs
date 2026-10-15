@@ -50,6 +50,17 @@ export const EDITIONS = {
       'Add a shipment to the order. It gets a number and its document checklist (invoice, packing list, B/L and more).',
     ],
   },
+  clinic: {
+    name: 'Clinic',
+    subdomain: 'clinic',
+    bookable: false, // set to true once the clinic workspace has the Clinic pack installed
+    tryThis: [
+      'Book an appointment for a patient with a treatment. The title and duration fill in by themselves.',
+      'Create a treatment plan with sessions and a discount. It gets a number and the total after discount.',
+      'Record a payment on the plan. It gets a receipt number and the plan balance goes down.',
+      'Mark an appointment as a no-show. The patient\'s no-shows go up and a rebook task appears.',
+    ],
+  },
 };
 
 const env = process.env;

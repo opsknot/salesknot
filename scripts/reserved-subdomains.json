@@ -1,6 +1,6 @@
 {
   "_about": "Subdomains of salesknot.app that customers can never take. Checked by scripts/new-workspace.mjs. Add a new edition's slug to 'editions' (or move it there from 'futureEditions') before building it. The owner still checks every customer subdomain by hand before a workspace is created.",
-  "editions": ["core", "call-centre", "real-estate", "travel-tours-and-visa", "legal-law", "import-export"],
+  "editions": ["core", "call-centre", "real-estate", "travel-tours-and-visa", "legal-law", "import-export", "clinic"],
   "futureEditions": [
     "healthcare", "clinic", "dental", "pharmacy", "pharma", "hospital",
     "education", "school", "college", "university", "academy", "training", "admissions",
