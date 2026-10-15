@@ -31,7 +31,7 @@ export const EDITIONS = {
   'legal-law': {
     name: 'Legal & Law',
     subdomain: 'legal-law',
-    bookable: false, // set to true once the legal-law workspace has the Legal & Law pack installed
+    bookable: true,
     tryThis: [
       'Open a matter with an opposing party who is already a client on another matter. It is flagged as a possible conflict and a review task appears.',
       'Set an hourly rate on the matter and record time. The amount and the matter\'s unbilled work update by themselves.',
