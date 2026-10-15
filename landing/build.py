@@ -12,6 +12,7 @@ OUT = os.path.join(ROOT, "public")
 SITE = "https://salesknot.app"
 DEMO = "https://opsknot.com/contact/booking/?topic=salesknot"  # opens the form with SalesKnot chosen
 SIGNIN = "https://my.salesknot.app"
+GA_ID = "G-5YVG6F1H7Z"  # Google Analytics 4 (salesknot.app stream)
 TODAY = date.today().isoformat()
 import hashlib
 # shared CSS/JS in src/ (chat.* is the live chat widget, which talks to opsknot.com/api/salesknot-chat/)
@@ -112,6 +113,8 @@ def page(path, title, desc, body, active="", schema=None, crumbs=None, og_title=
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','{GA_ID}');</script>
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{url}">
