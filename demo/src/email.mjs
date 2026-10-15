@@ -18,7 +18,7 @@ function getTransport() {
   return transport;
 }
 
-export function renderEmail({ firstName, editionName, link, expiresAt, days = config.demoDays, timezone }) {
+export function renderEmail({ firstName, editionName, link, expiresAt, days = config.demoDays, timezone, tryThis = [] }) {
   const until = formatUntil(expiresAt, timezone);
   const subject = `Your SalesKnot ${editionName} demo`;
   const text = [
@@ -29,6 +29,7 @@ export function renderEmail({ firstName, editionName, link, expiresAt, days = co
     '',
     `The link is valid for ${days} day${days === 1 ? '' : 's'}, until ${until}. You can use it as often as you like until then.`,
     '',
+    ...(tryThis.length ? ['Try the automations:', ...tryThis.map((t, i) => `${i + 1}. ${t}`), ''] : []),
     'The demo workspace is shared with other people trying SalesKnot, so please do not enter real customer data.',
     '',
     `Questions? Reply to this email or contact us: ${config.contactUrl}`,
@@ -56,6 +57,10 @@ export function renderEmail({ firstName, editionName, link, expiresAt, days = co
 <a href="${h(link)}" style="display:inline-block;padding:13px 26px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;border-radius:10px;">Open my demo</a>
 </td></tr></table>
 </td></tr>
+${tryThis.length ? `<tr><td style="padding:24px 32px 0 32px;">
+<p style="margin:0 0 8px 0;font-size:15px;font-weight:600;color:#0b1020;">Try the automations</p>
+<ol style="margin:0;padding-left:20px;font-size:14px;line-height:1.6;color:#4a5368;">${tryThis.map((t) => `<li style="margin:0 0 6px 0;">${h(t)}</li>`).join('')}</ol>
+</td></tr>` : ''}
 <tr><td style="padding:20px 32px 0 32px;">
 <p style="margin:0 0 12px 0;font-size:14px;line-height:1.6;color:#4a5368;">Valid for ${days} day${days === 1 ? '' : 's'}, until <strong style="color:#1d2433;">${h(until)}</strong>. You can use the link as often as you like until then.</p>
 <p style="margin:0 0 12px 0;font-size:14px;line-height:1.6;color:#4a5368;">The demo workspace is shared with other people trying SalesKnot, so please don't enter real customer data.</p>

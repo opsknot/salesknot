@@ -88,6 +88,7 @@ export async function approveBooking(email, slug, { days = config.demoDays } = {
     expiresAt,
     days,
     timezone: b.timezone,
+    tryThis: edition.tryThis,
   });
   await pool.query(
     'UPDATE bookings SET token_hash = $2, expires_at = $3, approved_at = coalesce(approved_at, now()) WHERE id = $1',

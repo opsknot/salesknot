@@ -4,9 +4,30 @@
 // (https://<subdomain>.salesknot.app). Set `bookable: false` for editions that are not ready yet.
 export const EDITIONS = {
   core: { name: 'Core CRM', subdomain: 'core', bookable: true },
-  'call-centre': { name: 'Call Centre', subdomain: 'call-centre', bookable: true },
+  'call-centre': {
+    name: 'Call Centre',
+    subdomain: 'call-centre',
+    bookable: true,
+    // "Try the automations" steps in the demo email: each one shows a built-in automation firing
+    tryThis: [
+      'Create a campaign, then add a person to its call list. The entry is named and its first call is due now.',
+      'Log a call with the outcome Callback and a time. The entry moves to Callback and you get a task for that time.',
+      'Log a call with the outcome Interested. An opportunity opens for you automatically.',
+      'Tick "Do not call" on a person. All their open call list entries stop at once.',
+    ],
+  },
   'real-estate': { name: 'Real Estate', subdomain: 'real-estate', bookable: true },
-  'travel-tours-and-visa': { name: 'Travel Tours & Visa', subdomain: 'travel-tours-and-visa', bookable: true },
+  'travel-tours-and-visa': {
+    name: 'Travel Tours & Visa',
+    subdomain: 'travel-tours-and-visa',
+    bookable: true,
+    tryThis: [
+      'Add a visa type with a fee and a document checklist.',
+      'Open a case with that visa type. The case number, fee and checklist fill in by themselves.',
+      'Add a payment to the case. It gets a receipt number and the balance due is recalculated.',
+      'Move an enquiry to Converted. The contact becomes a client and a visa case opens.',
+    ],
+  },
   'legal-law': { name: 'Legal & Law', subdomain: 'legal-law', bookable: false },
   'import-export': { name: 'Import & Export', subdomain: 'import-export', bookable: false },
 };
