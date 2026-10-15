@@ -3,7 +3,7 @@
 import { config, EDITIONS } from './config.mjs';
 import { pool } from './db.mjs';
 import { sendMagicLink } from './email.mjs';
-import { newVisitorEmail, provisionVisitor, removeVisitor, signInUrl } from './twenty.mjs';
+import { findMember, newVisitorEmail, provisionVisitor, removeVisitor, signInUrl } from './twenty.mjs';
 import { EMAIL_RE, hashToken, isIp, maskEmail, newToken, normalizeEmail, validTimezone } from './util.mjs';
 
 export class HttpError extends Error {
@@ -123,7 +123,19 @@ export async function openLink(token) {
       await client.query('UPDATE bookings SET workspace_member_id = $2 WHERE id = $1', [b.id, memberId]);
       console.log(`[link] ${b.id} visitor added to ${b.edition}`);
     }
-    const url = await signInUrl(b.edition, b.workspace_user_email);
+    let url;
+    try {
+      url = await signInUrl(b.edition, b.workspace_user_email);
+    } catch (err) {
+      // The visitor deleted their own demo login (Settings > Profile > Delete account). Give the booking
+      // a new login so the link keeps working until it expires.
+      if (await findMember(b.edition, b.workspace_user_email)) throw err;
+      const email = newVisitorEmail();
+      const memberId = await provisionVisitor(b.edition, email, { firstName: b.first_name, lastName: b.last_name });
+      await client.query('UPDATE bookings SET workspace_user_email = $2, workspace_member_id = $3 WHERE id = $1', [b.id, email, memberId]);
+      console.log(`[link] ${b.id} visitor login was deleted, made a new one in ${b.edition}`);
+      url = await signInUrl(b.edition, email);
+    }
     await client.query(
       `UPDATE bookings SET first_used_at = coalesce(first_used_at, now()), last_used_at = now(), use_count = use_count + 1 WHERE id = $1`,
       [b.id],
