@@ -53,8 +53,7 @@ EDITIONS = [
 
 def header(active):
     def cur(k): return ' aria-current="page"' if active == k else ""
-    eds = f'<a class="core-link" href="/features/"><span class="e">{mark("dd")}</span><span><b>SalesKnot core CRM</b><small>Included in every edition</small></span></a>'
-    eds += "".join(f'<a href="/editions/{e["slug"]}/"><span class="e">{e["emo"]}</span><span><b>{esc(e["name"])} edition</b><small>{esc(e["nav"])}</small></span></a>' for e in EDITIONS)
+    eds = "".join(f'<a href="/editions/{e["slug"]}/"><span class="e">{e["emo"]}</span><span><b>{esc(e["name"])} edition</b><small>{esc(e["nav"])}</small></span></a>' for e in EDITIONS)
     eds += '<a class="all-link" href="/editions/"><span class="e">✦</span><span><b>All editions</b><small>Compare what each one adds</small></span></a>'
     meds = "".join(f'<a class="sub2" href="/editions/{e["slug"]}/">{e["emo"]} {esc(e["name"])}</a>' for e in EDITIONS)
     return f'''<a class="skip" href="#main">Skip to content</a>
