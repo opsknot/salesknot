@@ -29,22 +29,22 @@ def mark(uid="m"):
     return f'''<svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="{uid}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5b7cff"/><stop offset=".55" stop-color="#7c5cf6"/><stop offset="1" stop-color="#a855f7"/></linearGradient><radialGradient id="{uid}h" cx=".22" cy=".12" r=".9"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></radialGradient><clipPath id="{uid}t"><circle cx="32" cy="23.3" r="7.5"/></clipPath><clipPath id="{uid}b"><circle cx="32" cy="40.7" r="7.5"/></clipPath><mask id="{uid}A" maskUnits="userSpaceOnUse" x="-10" y="-10" width="84" height="84"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/><circle cx="39.5" cy="32" r="11.5" fill="none" stroke="#000" stroke-width="10" clip-path="url(#{uid}t)"/></mask><mask id="{uid}B" maskUnits="userSpaceOnUse" x="-10" y="-10" width="84" height="84"><rect x="-10" y="-10" width="84" height="84" fill="#fff"/><circle cx="24.5" cy="32" r="11.5" fill="none" stroke="#000" stroke-width="10" clip-path="url(#{uid}b)"/></mask></defs><rect width="64" height="64" rx="16" fill="url(#{uid}g)"/><rect width="64" height="64" rx="16" fill="url(#{uid}h)"/><g fill="none" stroke-width="5.6" transform="rotate(-32 32 32)"><circle cx="24.5" cy="32" r="11.5" stroke="#fff" mask="url(#{uid}A)"/><circle cx="39.5" cy="32" r="11.5" stroke="#b9f3ff" mask="url(#{uid}B)"/></g></svg>'''
 
 EDITIONS = [
-    dict(slug="real-estate-crm", name="Real Estate", emo="🏙️", live=True, demo="real-estate",
+    dict(slug="real-estate-crm", term="Real Estate CRM", name="Real Estate", emo="🏙️", live=True, demo="real-estate",
          nav="Properties, showings, buyer stages",
          blurb="Properties, showings, buyer stages and agency dashboards."),
-    dict(slug="call-centre-crm", name="Call Centre", emo="🎧", live=False, early=True, demo="call-centre",
+    dict(slug="call-centre-crm", term="Call Center Software", name="Call Centre", emo="🎧", live=False, early=True, demo="call-centre",
          nav="Campaigns, call lists, callbacks",
          blurb="Campaigns, call lists, dispositions, callbacks and agent dashboards."),
-    dict(slug="travel-agency-crm", name="Travel & Visa", emo="✈️", live=False, early=True, demo="travel-tours-and-visa",
+    dict(slug="travel-agency-crm", term="Travel Agency Software", name="Travel & Visa", emo="✈️", live=False, early=True, demo="travel-tours-and-visa",
          nav="Enquiries, visa cases, payments",
          blurb="Enquiries, visa cases, document checklists, payments and receipts."),
-    dict(slug="law-firm-crm", name="Legal & Law", emo="⚖️", live=False, early=True, demo="legal-law",
+    dict(slug="law-firm-crm", term="Law Practice Management Software", name="Legal & Law", emo="⚖️", live=False, early=True, demo="legal-law",
          nav="Matters, deadlines, time, invoices",
          blurb="Matters with conflict checks, hearings and deadlines, time recording, invoices and payments."),
-    dict(slug="import-export-crm", name="Import & Export", emo="🚢", live=False, sub="import-export",
+    dict(slug="import-export-crm", term="Import Export Software", name="Import & Export", emo="🚢", live=False, sub="import-export",
          nav="Buyers, suppliers, shipments",
          blurb="Buyers, suppliers, quotations, shipments and documents."),
-    dict(slug="clinic-crm", name="Clinic", emo="🩺", live=False, sub="clinic",
+    dict(slug="clinic-crm", term="Clinic Management Software", name="Clinic", emo="🩺", live=False, sub="clinic",
          nav="Patients, appointments, treatment plans",
          blurb="Patient enquiries, appointments, treatment plans, payments and recall reminders."),
 ]
@@ -53,7 +53,7 @@ EDITIONS = [
 
 def header(active):
     def cur(k): return ' aria-current="page"' if active == k else ""
-    eds = "".join(f'<a href="/editions/{e["slug"]}/"><span class="e">{e["emo"]}</span><span><b>{esc(e["name"])} edition</b><small>{esc(e["nav"])}</small></span></a>' for e in EDITIONS)
+    eds = "".join(f'<a href="/editions/{e["slug"]}/"><span class="e">{e["emo"]}</span><span><b>{esc(e["term"])}</b><small>{esc(e["nav"])}</small></span></a>' for e in EDITIONS)
     eds += '<a class="all-link" href="/editions/"><span class="e">✦</span><span><b>All editions</b><small>Compare what each one adds</small></span></a>'
     meds = "".join(f'<a class="sub2" href="/editions/{e["slug"]}/">{e["emo"]} {esc(e["name"])}</a>' for e in EDITIONS)
     return f'''<a class="skip" href="#main">Skip to content</a>
@@ -79,7 +79,7 @@ def header(active):
 </header>'''
 
 def footer():
-    eds = '<li><a href="/editions/">All editions</a></li>' + "".join(f'<li><a href="/editions/{e["slug"]}/">{esc(e["name"])} CRM</a></li>' for e in EDITIONS)
+    eds = '<li><a href="/editions/">All editions</a></li>' + "".join(f'<li><a href="/editions/{e["slug"]}/">{esc(e["term"])}</a></li>' for e in EDITIONS)
     return f'''<footer class="foot">
   <div class="wrap">
     <div class="fgrid">
@@ -228,7 +228,7 @@ def ed_cards(link=True, core=False):
     out = []
     for i, e in enumerate(EDITIONS):
         tag = '<span class="tag on">Available</span>' if e["live"] else ('<span class="tag">Early access</span>' if e.get("early") else '<span class="tag">Coming soon</span>')
-        out.append(f'<a class="ed{" live" if e["live"] else ""}" href="/editions/{e["slug"]}/" data-r style="--d:{i*0.1:.1f}s"><div><span class="emo" aria-hidden="true">{e["emo"]}</span><h3>{esc(e["name"])} CRM</h3><p>{esc(e["blurb"])}</p><span class="tlink">Explore <span>→</span></span>{tag}</div></a>')
+        out.append(f'<a class="ed{" live" if e["live"] else ""}" href="/editions/{e["slug"]}/" data-r style="--d:{i*0.1:.1f}s"><div><span class="emo" aria-hidden="true">{e["emo"]}</span><h3>{esc(e["term"])}</h3><p>{esc(e["blurb"])}</p><span class="tlink">Explore <span>→</span></span>{tag}</div></a>')
     out.append(f'<a class="ed custom" href="{DEMO}" data-r style="--d:{len(EDITIONS)*0.1:.1f}s"><div><span class="emo" aria-hidden="true">✦</span><h3>Your industry</h3><p>Not listed? We shape the core CRM around your process: your records, stages and automations.</p><span class="tlink">Talk to us <span>→</span></span></div></a>')
     return (core_banner() if core else "") + '<div class="eds">' + "".join(out) + "</div>"
 
@@ -470,9 +470,9 @@ def editions_hub():
 <p class="sub" data-r style="margin-top:28px">Don't see your industry? Every edition starts from the same CRM, and we can shape a workspace to your process. <a class="tlink" href="{DEMO}" style="margin-top:0">Tell us what you sell <span>→</span></a></p>
 </div></section>''' + final()
     schema = [{"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [
-        {"@type": "ListItem", "position": i + 1, "url": f"{SITE}/editions/{e['slug']}/", "name": f"{e['name']} CRM"} for i, e in enumerate(EDITIONS)]}]
+        {"@type": "ListItem", "position": i + 1, "url": f"{SITE}/editions/{e['slug']}/", "name": e["term"]} for i, e in enumerate(EDITIONS)]}]
     return page("/editions/", "CRM Editions: Call Centre, Real Estate & Travel | SalesKnot",
-                "SalesKnot editions add industry records, pipelines and dashboards to the core CRM: call centre, real estate, travel and visa, law firm and import/export CRM.",
+                "SalesKnot editions add industry records, pipelines and dashboards to the core CRM: real estate CRM, call center software, travel agency software, law practice management software, import export software and clinic management software.",
                 body, "editions", schema, crumbs=[("Editions", "/editions/")])
 
 EDITION_PAGES = {
@@ -499,11 +499,11 @@ EDITION_PAGES = {
             ("How much does a real estate CRM cost with SalesKnot?", "$35 per agent per month for the core CRM with the Real Estate edition, or $28 when you pay yearly, with automation and AI agents included and no minimum. Setup is quoted once, up front. See <a href=\"/pricing/\">pricing</a>."),
         ]),
     "call-centre-crm": dict(
-        title="Call Centre CRM for Outbound & Inbound Teams | SalesKnot",
-        desc="A call centre CRM with campaigns, call lists, dispositions, automatic callbacks, do-not-call lists and agent dashboards. Dialer-ready. No per-agent fees.",
-        h1="The call centre CRM that <span class=\"grad\">works the list for you.</span>",
+        title="Call Center Software with CRM for Outbound & Inbound Teams | SalesKnot",
+        desc="Call center software with a built-in CRM: campaigns, call lists, dispositions, automatic callbacks, do-not-call lists and agent dashboards. Dialer-ready. No per-agent fees.",
+        h1="Call center software that <span class=\"grad\">works the list for you.</span>",
         lead="Load a campaign, and SalesKnot tells every agent who to call next. Each disposition updates the lead, books the callback, respects do-not-call and turns interested people into deals.",
-        kicker="Call Centre CRM",
+        kicker="Call Center Software",
         cta_h="Put your call floor<br><span class=\"grad\">on autopilot.</span>",
         blocks=[
             ("Campaigns", "Outbound sales, collections, surveys or inbound support, each with its script, dates, attempt limits and live totals."),
@@ -516,17 +516,17 @@ EDITION_PAGES = {
         flows=[("No answer, busy or voicemail", "Retry after the campaign's wait time, then mark exhausted at the attempt limit"), ("Callback requested", "Task for the agent at the agreed time, lead back in the queue"), ("Interested or sale", "Lead marked converted and a deal opened for the sales team"), ("Do not call", "Person flagged and pulled from every open list")],
         who=["Outbound sales and telemarketing teams", "Collections and renewals desks", "Inbound support and helplines", "BPOs running campaigns for several clients"],
         faqs=[
-            ("What is a call centre CRM?", "A call centre CRM organises who to call, records what happened on every call and decides the next step automatically: retries, callbacks, conversions and do-not-call. SalesKnot does this on top of a full sales CRM, so converted leads flow straight into your pipeline."),
+            ("What is call center software?", "Call center software, or a call centre CRM, organises who to call, records what happened on every call and decides the next step automatically: retries, callbacks, conversions and do-not-call. SalesKnot does this on top of a full sales CRM, so converted leads flow straight into your pipeline."),
             ("Does it work with my dialer?", "Yes. Agents can log calls by hand, or your dialer (such as Twilio, Aircall or 3CX) can send finished calls to SalesKnot automatically through the API, with the recording link attached."),
             ("How are callbacks and retries handled?", "Each campaign has an attempt limit and a retry wait. No-answer calls come back after the wait until the limit is reached; callbacks are booked for the exact time the customer asked for."),
             ("How is a call centre CRM priced with SalesKnot?", "$35 per agent per month for the core CRM with the Call Centre edition, or $28 when you pay yearly, with no minimum. Phone lines and call minutes are billed by your phone provider, not by us. See <a href=\"/pricing/\">pricing</a>."),
         ]),
     "travel-agency-crm": dict(
-        title="Travel & Visa Agency CRM for Consultancies | SalesKnot",
-        desc="A travel and visa agency CRM: enquiries, visa cases, document checklists, payments with receipt numbers and automatic reminders. Everything included.",
-        h1="The travel and visa CRM built for <span class=\"grad\">enquiries that convert.</span>",
+        title="Travel Agency Software & Visa Consultancy CRM | SalesKnot",
+        desc="Travel agency software with a built-in CRM for travel and visa consultancies: enquiries, visa cases, document checklists, payments with receipt numbers and automatic reminders. Everything included.",
+        h1="Travel agency software built for <span class=\"grad\">enquiries that convert.</span>",
         lead="Turn enquiries into visa cases and trips. SalesKnot's Travel & Visa edition keeps every client, document checklist and payment together, and reminds your team before anything is due.",
-        kicker="Travel & Visa CRM",
+        kicker="Travel Agency Software",
         blocks=[
             ("Enquiries", "Walk-in, WhatsApp, Facebook and website enquiries on one board, from new to converted."),
             ("Visa cases", "Numbered cases moving from documents to submission and decision, with fee, appointment and outcome."),
@@ -538,16 +538,16 @@ EDITION_PAGES = {
         flows=[("Enquiry converted", "Client created and a visa case opened with its checklist"), ("Payment recorded", "Receipt number assigned, case balance updated"), ("Passport expires in 90 days", "Follow-up task for the counselor")],
         who=["Visa consultancies", "Travel agencies and tour operators", "Study-abroad and immigration advisers", "Hajj, Umrah and religious travel organisers"],
         faqs=[
-            ("What is a travel and visa agency CRM?", "It tracks enquiries, clients, visa cases, documents and payments in one place, so counselors follow up quickly and nothing slips between the first enquiry and the decision."),
+            ("What is travel agency software?", "Travel agency software, sometimes called a travel and visa CRM, tracks enquiries, clients, visa cases, documents and payments in one place, so counselors follow up quickly and nothing slips between the first enquiry and the decision."),
             ("Is the Travel & Visa edition available now?", "It is in early access. Book a demo and we'll set up your workspace with the edition and import your existing clients and cases."),
             ("Does it handle payments and receipts?", "Yes. Payments and refunds get receipt numbers automatically, and each case shows the amount paid and balance due."),
         ]),
     "law-firm-crm": dict(
-        title="Law Firm CRM for Matters, Deadlines & Billing | SalesKnot",
-        desc="A law firm CRM for client intake, matters with conflict checks, hearings and deadlines, time recording, invoices and payments, with automated reminders. Built for small and mid-sized firms.",
-        h1="A law firm CRM that keeps <span class=\"grad\">every matter moving.</span>",
+        title="Law Practice Management Software & Law Firm CRM | SalesKnot",
+        desc="Law practice management software with a built-in law firm CRM: client intake, matters with conflict checks, hearings and deadlines, time recording, invoices and payments, with automated reminders. Built for small and mid-sized firms.",
+        h1="Law practice management software that keeps <span class=\"grad\">every matter moving.</span>",
         lead="From first enquiry to final invoice, SalesKnot's Legal & Law edition tracks clients, matters, deadlines and billable time, and automates the checks and reminders your team can't afford to miss.",
-        kicker="Law Firm CRM",
+        kicker="Law Practice Management Software",
         blocks=[
             ("Client intake", "Enquiries move from new to consultation, proposal and retained. A retained enquiry opens the matter and makes the contact a client."),
             ("Matters & conflict checks", "Numbered matters with practice area, lead lawyer, opposing party and court. Every matter is checked for possible conflicts automatically."),
@@ -559,16 +559,16 @@ EDITION_PAGES = {
         flows=[("Opposing party is a client on another matter", "Matter flagged as a possible conflict, review task for the lead lawyer"), ("Hearing in 7 days", "Reminder task for the responsible lawyer"), ("Invoice created", "Numbered, due in 14 days, unbilled time added")],
         who=["Small and mid-sized law firms", "Immigration and corporate practices", "Legal consultancies", "In-house teams handling external counsel"],
         faqs=[
-            ("What is a law firm CRM?", "A law firm CRM manages client intake, matters, deadlines and billing, so enquiries are followed up quickly, key dates are never missed and work gets invoiced."),
+            ("What is law practice management software?", "Law practice management software, with a law firm CRM at its core, manages client intake, matters, deadlines and billing, so enquiries are followed up quickly, key dates are never missed and work gets invoiced."),
             ("Is the Legal & Law edition available now?", "It is in early access. Book a demo and we'll set up your workspace with the edition and import your existing clients and matters."),
             ("Is client data kept confidential?", "Each firm gets its own separate workspace with role-based access, and we can host SalesKnot on your own server if your policy requires it."),
         ]),
     "import-export-crm": dict(
-        title="Import Export CRM for Traders & Distributors | SalesKnot",
-        desc="An import/export CRM for traders, distributors and sourcing companies: buyers, suppliers, quotations, orders and shipments, with automated follow-up. Early access open.",
-        h1="The CRM for traders who <span class=\"grad\">ship on time.</span>",
+        title="Import Export Software & Trading CRM for Distributors | SalesKnot",
+        desc="Import export software with a built-in trading CRM for traders, distributors and sourcing companies: buyers, suppliers, quotations, orders and shipments, with automated follow-up. Early access open.",
+        h1="Import export software for traders who <span class=\"grad\">ship on time.</span>",
         lead="Manage buyers and suppliers across countries, follow quotations to orders, and track shipments and documents, with automation chasing every next step.",
-        kicker="Import & Export CRM",
+        kicker="Import Export Software",
         blocks=[
             ("Buyers & suppliers", "Companies and contacts by country, product line and terms."),
             ("Quotations", "Quotes linked to the buyer, product and validity date, with follow-up reminders."),
@@ -580,16 +580,16 @@ EDITION_PAGES = {
         flows=[("Quote sent", "Follow up in 3 days if no reply"), ("Shipment departed", "Email the buyer with ETA"), ("Buyer inactive 60 days", "Create reorder call task")],
         who=["Importers and exporters", "Distributors and wholesalers", "Sourcing and trading companies", "Freight-aware sales teams"],
         faqs=[
-            ("What is an import/export CRM?", "An import/export CRM tracks buyers, suppliers, quotations, orders and shipments together, so traders can follow up on quotes and keep buyers informed without spreadsheets."),
+            ("What is import export software?", "Import export software, or an import/export CRM, tracks buyers, suppliers, quotations, orders and shipments together, so traders can follow up on quotes and keep buyers informed without spreadsheets."),
             ("Is the Import & Export edition available now?", "It is in development. You can start on the standard SalesKnot CRM today, and we'll move you onto the edition when it launches."),
             ("Can it handle multiple currencies?", "Yes. Currency fields support amounts in different currencies on quotations and orders."),
         ]),
     "clinic-crm": dict(
-        title="Clinic CRM for Dental, Skin & Physio Clinics | SalesKnot",
-        desc="A clinic CRM for the front office: patient enquiries, appointments, treatment plans, payments and recall reminders, with automated follow-up. Coming soon.",
-        h1="The front desk that <span class=\"grad\">never forgets a patient.</span>",
+        title="Clinic Management Software for Dental, Skin & Physio Clinics | SalesKnot",
+        desc="Clinic management software for the front office, with a built-in clinic CRM: patient enquiries, appointments, treatment plans, payments and recall reminders, with automated follow-up. Coming soon.",
+        h1="Clinic management software that <span class=\"grad\">never forgets a patient.</span>",
         lead="Turn enquiries into booked appointments, follow treatment plans to completion, and bring patients back on time, with automation handling reminders, no-shows and recalls.",
-        kicker="Clinic CRM",
+        kicker="Clinic Management Software",
         blocks=[
             ("Patient enquiries", "Every call, WhatsApp and web enquiry tracked from first contact to first visit."),
             ("Appointments", "Bookings by practitioner and treatment, with durations filled in for you."),
@@ -601,7 +601,7 @@ EDITION_PAGES = {
         flows=[("Patient misses an appointment", "No-show counted and a rebook task created"), ("Treatment completed", "Recall date set from the treatment"), ("Appointment tomorrow", "Reminder task for the front desk")],
         who=["Dental clinics", "Skin, aesthetic and hair clinics", "Physiotherapy and wellness centres", "Eye, fertility and specialist clinics"],
         faqs=[
-            ("What is a clinic CRM?", "A clinic CRM runs the front office: enquiries, appointments, treatment plans, payments and recalls, so more enquiries become patients and patients come back on time."),
+            ("What is clinic management software?", "Clinic management software, or a clinic CRM, runs the front office: enquiries, appointments, treatment plans, payments and recalls, so more enquiries become patients and patients come back on time."),
             ("Does it store medical records?", "No. The Clinic edition is for the front office and patient relationships only. Clinical notes and medical records stay in your clinical system."),
             ("Is the Clinic edition available now?", "It is coming soon. You can start on the standard SalesKnot CRM today, and we'll move you onto the edition when it launches."),
         ]),
@@ -618,7 +618,7 @@ def edition(e):
     if e["live"]: cta_s = "Book a demo and we'll show you SalesKnot running your agency's pipeline."
     elif e.get("early"): cta_s = f"Book a demo and we'll set up your workspace with the core CRM and the {esc(e['name'])} edition, with your data imported."
     else: cta_s = "Start on the core CRM today and we'll shape your workspace for your industry, then move you onto the edition when it launches."
-    others = "".join(f'<a class="chips" href="/editions/{o["slug"]}/" style="margin:0"><span>{o["emo"]} {esc(o["name"])} CRM</span></a>' for o in EDITIONS if o["slug"] != e["slug"])
+    others = "".join(f'<a class="chips" href="/editions/{o["slug"]}/" style="margin:0"><span>{o["emo"]} {esc(o["term"])}</span></a>' for o in EDITIONS if o["slug"] != e["slug"])
     demo = DEMO + (f'&edition={e["demo"]}' if e.get("demo") else "")
     body = phero(d["kicker"], d["h1"], d["lead"], [("Editions", "/editions/"), (e["name"], f'/editions/{e["slug"]}/')], extra=extra, demo=demo) + f'''
 <section style="padding-top:20px"><div class="wrap">
@@ -634,17 +634,17 @@ def edition(e):
 <div class="cell" data-r><h3>Who it's for</h3>{checks(d["who"])}</div>
 <div class="cell" data-r style="--d:.1s"><h3>Why teams choose SalesKnot</h3>{checks(["One price per user, everything included", "Workflows and AI agents in every seat", "Set up, imported and supported for you", "Your data, exportable any time"])}</div>
 </div></div></section>
-<section class="tight"><div class="wrap"><div class="center"><div data-r><span class="kicker">Questions</span></div><h2 data-r style="--d:.08s" class="sm">{esc(e["name"])} CRM questions</h2></div>
+<section class="tight"><div class="wrap"><div class="center"><div data-r><span class="kicker">Questions</span></div><h2 data-r style="--d:.08s" class="sm">{esc(e["term"])} questions</h2></div>
 {faq_block(d["faqs"])}
 <div class="center" data-r style="margin-top:44px"><p class="sub" style="margin:0 auto 16px">Other editions</p><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">{others}</div></div>
 </div></section>
 {final(cta_h, cta_s)}'''
     schema = [faq_schema(d["faqs"]),
-              {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": f"SalesKnot {e['name']} CRM",
+              {"@context": "https://schema.org", "@type": "SoftwareApplication", "name": f"SalesKnot {e['term']}",
                "applicationCategory": "BusinessApplication", "applicationSubCategory": "CRM", "operatingSystem": "Web",
                "url": f"{SITE}/editions/{e['slug']}/", "description": d["desc"], "publisher": {"@id": SITE + "/#org"}}]
     return page(f'/editions/{e["slug"]}/', d["title"], d["desc"], body, "editions", schema,
-                crumbs=[("Editions", "/editions/"), (f'{e["name"]} CRM', f'/editions/{e["slug"]}/')])
+                crumbs=[("Editions", "/editions/"), (e["term"], f'/editions/{e["slug"]}/')])
 
 def pricing():
     rows = [
@@ -727,7 +727,7 @@ def coming_soon(e):
     body = phero("Coming soon", f'{esc(e["name"])} edition<br><span class="grad">is on its way.</span>',
                  f'{esc(e["blurb"])} We are building it on top of the SalesKnot core CRM. Book a call and we will tell you as soon as it opens, or show you the core CRM today.',
                  [("Editions", "/editions/"), (e["name"], f'/editions/{e["slug"]}/')], center=True)
-    p = page(f'/editions/{e["slug"]}/', f'{e["name"]} CRM edition: coming soon | SalesKnot',
+    p = page(f'/editions/{e["slug"]}/', f'{e["term"]}: coming soon | SalesKnot',
              f'The SalesKnot {e["name"]} edition is coming soon.', body, "editions")
     return p.replace('<meta name="robots" content="index, follow, max-image-preview:large">', '<meta name="robots" content="noindex">')
 
