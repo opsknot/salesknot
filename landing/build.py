@@ -244,8 +244,8 @@ CHART = '''<div class="chart" data-r="left">
 <text x="0" y="20" fill="#c9cfe6" font-size="15" font-weight="600">Typical CRM, per user</text><g class="grow" style="transition-delay:0.00s"><rect x="0" y="32" width="90" height="52" rx="10" fill="#be4f8a"/><text x="12" y="64" fill="#fff" font-size="14" font-weight="600">Seat</text></g><g class="grow" style="transition-delay:0.25s"><rect x="95" y="32" width="145" height="52" rx="10" fill="#c2416e"/><text x="107" y="64" fill="#fff" font-size="14" font-weight="600">Automation tier</text></g><g class="grow" style="transition-delay:0.50s"><rect x="245" y="32" width="105" height="52" rx="10" fill="#a3365e"/><text x="257" y="64" fill="#fff" font-size="14" font-weight="600">AI add-on</text></g><g class="grow" style="transition-delay:0.75s"><rect x="355" y="32" width="160" height="52" rx="10" fill="#7d2b4c"/><text x="367" y="64" fill="#fff" font-size="14" font-weight="600">Setup partner</text></g><text x="0" y="130" fill="#c9cfe6" font-size="15" font-weight="600">SalesKnot, per user</text><g class="grow" style="transition-delay:0.00s"><rect x="0" y="142" width="295" height="52" rx="10" fill="url(#sk)"/><text x="12" y="174" fill="#fff" font-size="14" font-weight="600">Everything included</text></g></svg>
 <small>Illustration of what a user really costs. Your SalesKnot per-user price is confirmed after a short call.</small></div>'''
 
-PRICES = {"core": {"usd": {"m": 25, "y": 20}, "pkr": {"m": 2495, "y": 1995}},
-          "edition": {"usd": {"m": 35, "y": 28}, "pkr": {"m": 3495, "y": 2795}}}
+PRICES = {"core": {"usd": {"m": 25, "y": 20}, "pkr": {"m": 2995, "y": 2495}},
+          "edition": {"usd": {"m": 35, "y": 28}, "pkr": {"m": 3995, "y": 3495}}}
 
 def amt(tier, bill="m"):
     p = PRICES[tier]
@@ -260,7 +260,7 @@ def tiers():
 <div class="p">{amt(tier)}<span class="per">per user / month<br><span class="billnote">billed monthly</span></span></div>
 {checks(items)}<a class="btn {"btn-main" if hi else "btn-ghost"}" href="{DEMO}">{cta} <span class="arr">→</span></a></div>'''
     return f'''<div class="tiers-bar" data-r>
-<div class="seg" role="group" aria-label="Billing period"><button type="button" data-set-bill="m" aria-pressed="true">Monthly</button><button type="button" data-set-bill="y" aria-pressed="false">Yearly <em>save 20%</em></button></div>
+<div class="seg" role="group" aria-label="Billing period"><button type="button" data-set-bill="m" aria-pressed="true">Monthly</button><button type="button" data-set-bill="y" aria-pressed="false">Yearly <em data-save-pkr="save PKR 500/mo">save 20%</em></button></div>
 <div class="seg pk-only" role="group" aria-label="Currency" hidden><button type="button" data-set-cur="usd" aria-pressed="true">USD</button><button type="button" data-set-cur="pkr" aria-pressed="false">PKR</button></div></div>
 <div class="tiers">{card("core", "SalesKnot", "The complete automation-first CRM for any sales team.", core)}{card("edition", "SalesKnot + Edition", "The core CRM plus the edition built for your industry.", ed, hi=True)}</div>
 <p class="tnote">No minimum number of users. Add or remove users month to month. Setup and data import are quoted once, up front.<span class="pk-only" hidden><br>PKR prices apply to companies invoiced in Pakistan.</span></p>'''

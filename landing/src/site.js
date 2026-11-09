@@ -47,6 +47,8 @@
     const render = () => {
       amts.forEach(el => { const p = JSON.parse(el.dataset.p); const b = $('[data-set-bill]') ? st.bill : (el.dataset.bill || 'm'); el.textContent = fmt(st.cur, p[st.cur][b]); });
       $$('.billnote').forEach(n => n.textContent = st.bill === 'y' ? 'billed yearly' : 'billed monthly');
+      // yearly saves 20% in USD but a flat PKR 500 per user per month in rupees
+      $$('[data-save-pkr]').forEach(e => { e.dataset.saveUsd = e.dataset.saveUsd || e.textContent; e.textContent = st.cur === 'pkr' ? e.dataset.savePkr : e.dataset.saveUsd; });
       $$('[data-set-bill]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setBill === st.bill));
       $$('[data-set-cur]').forEach(b => b.setAttribute('aria-pressed', b.dataset.setCur === st.cur));
     };
